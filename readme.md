@@ -1,14 +1,16 @@
-# 如何使用本仓库
+# 如何下载本仓库
 ```bash
-# 下载本仓库
+## 方法一：
+# 1.先下载主仓库
 git clone https://github.com/shuaihuafei/ros_boat_ws.git
-# 下载本仓库中的子仓库
+# 2.下载主仓库中的子仓库
 git submodule update --init --recursive
 
+## 方法二：
 # 或者直接使用下面的指令克隆主仓库和子仓库
 git clone --recurse-submodules https://github.com/shuaihuafei/ros_boat_ws.git
 
-# 注：在主仓库中添加别人的仓库为子仓库的指令为
+## 注：在主仓库中添加别人的仓库为子仓库的指令为
 git submodule add <子仓库地址>
 ```
 # 环境配置
@@ -22,7 +24,18 @@ git submodule add <子仓库地址>
 1. 安装适配当前电脑的显卡驱动
 2. 安装cuda11.1和cudnn，并配置环境变量
 3. 创建conda虚拟环境，python=3.8，torch=1.8.0
-4. 下载yolov11模型文件到src/cv/ultralytics目录下
+    ```bash
+    # 创建Python虚拟环境
+    conda create -n yolov11-ros python=3.8
+    conda activate yolov11-ros
+    # 安装Pytorch
+    pip install torch==1.8.0+cu111 torchvision==0.9.0+cu111 torchaudio==0.8.0 -f <https://download.pytorch.org/whl/torch_stable.html>
+    ```
+4. 安装yolov11库
+    ```bash
+    pip install ultralytics
+    ```
+5. 下载yolov11模型文件到src/cv/ultralytics目录下
 ## 相机
 参考：相机ros的[github地址](https://github.com/orbbec/OrbbecSDK_ROS1)  
 1. 安装依赖
@@ -33,7 +46,13 @@ git submodule add <子仓库地址>
     ```bash
     sudo bash src/OrbbecSDK_ROS1/scripts/install_udev_rules.sh
     ```
-3. 编译
+## 编译
+1. 切换到刚定义的虚拟环境中再编译
     ```bash
-    catkin build
+    catkin_make
     ```
+2. 编译过程中会报错，根据报错信息，分别安装
+```bash
+pip install empy=3.3.4
+pip install catkin_pkg
+```
