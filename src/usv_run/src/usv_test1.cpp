@@ -14,7 +14,7 @@ void state_cb(const mavros_msgs::State::ConstPtr& msg) {
 
 int main(int argc, char** argv) {
     // 初始化 ROS 节点
-    ros::init(argc, argv, "boat_controller");
+    ros::init(argc, argv, "boat_run");
     ros::NodeHandle nh;
 
     // 订阅无人船的当前状态
