@@ -49,10 +49,20 @@ git submodule add <子仓库地址>
 ## 编译
 1. 切换到刚定义的虚拟环境中再编译
     ```bash
+    conda activate yolov11-ros
     catkin_make
     ```
-2. 编译过程中会报错，根据报错信息，分别安装
+2. 编译过程中会报错，根据报错信息，分别安装，然后再编译
 ```bash
 pip install empy=3.3.4
 pip install catkin_pkg
 ```
+3. 运行时根据报错信息，缺失'rospkg'包，安装
+    ```bash
+    pip install rospkg
+    ```
+4. 运行时报错库冲突，删除冲突库
+    ```bash
+    rm ${CONDA_PREFIX}/lib/libffi.7.so
+    rm ${CONDA_PREFIX}/lib/libffi.so.7
+    ```
