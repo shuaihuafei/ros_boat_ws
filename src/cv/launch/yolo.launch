@@ -1,0 +1,4 @@
+<launch>
+    <node name="yolo_predict" pkg="cv" type="predict_person_position.py" output="screen">
+    </node>
+</launch>
