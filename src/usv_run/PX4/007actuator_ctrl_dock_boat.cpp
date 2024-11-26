@@ -347,7 +347,7 @@ public:
         // 如果超过 5 秒没有接收到消息，设置 dock_angle 为 0
         if ((ros::Time::now() - last_received_time_dock).toSec() > 5.0) {
             dock_angle = -1;
-            ROS_WARN("No object angle received for 1 second, setting dock_angle to -1.");
+            ROS_WARN("No dock angle received for 1 second, setting dock_angle to -1.");
         }
     }
 
@@ -356,7 +356,7 @@ public:
         // 如果超过 5 秒没有接收到消息，设置 dock_angle 为 0
         if ((ros::Time::now() - last_received_time_boat).toSec() > 2.0) {
             boat_angle = 0;
-            ROS_WARN("No object angle received for 1 second, setting boat_angle to -1.");
+            ROS_WARN("No boat angle received for 1 second, setting boat_angle to -1.");
         }
     }
 

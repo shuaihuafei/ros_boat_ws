@@ -95,9 +95,7 @@ def image_callback(ros_image):
                 # Publish only the angle
                 angle_pub.publish(angle_x_deg)
 
-                rospy.loginfo(
-                    f"Detected {class_name} with confidence {confidence:.2f}"
-                )
+                rospy.loginfo(f"Detected {class_name} with confidence {confidence:.2f}")
                 rospy.loginfo(f"Angle to object (x-axis): {angle_x_deg} degrees")
 
                 # Prepare the text to overlay (class name and angle)
@@ -161,7 +159,7 @@ def main():
     rospy.init_node("boat_image_predictor", anonymous=True)
 
     # Subscribe to the image topic (replace 'camera/image' with your topic name)
-    rospy.Subscriber("/camera/color/image_raw", Image, image_callback)
+    rospy.Subscriber("/camera_usb/color/image_raw", Image, image_callback)
 
     # Keep the node running
     rospy.spin()

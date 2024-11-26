@@ -14,7 +14,7 @@ def main():
     video_device = rospy.get_param("~video_device", 0)
 
     # Create a publisher for the camera image
-    image_pub = rospy.Publisher("/camera/color/image_raw", Image, queue_size=10)
+    image_pub = rospy.Publisher("/camera_usb/color/image_raw", Image, queue_size=10)
 
     # Initialize CvBridge
     bridge = CvBridge()
