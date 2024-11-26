@@ -160,6 +160,8 @@ add_executable(09usv_test_geuss_test PX4/09usv_test_geuss_test.cpp)
 add_executable(APM_yaw APM/APM_yaw.cpp)
 add_executable(yaw_test APM/yaw_test.cpp)
 add_executable(yaw_pid APM/yaw_pid.cpp)
+add_executable(APM_actuator APM/APM_actuator.cpp)
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -231,6 +233,9 @@ target_link_libraries(yaw_test
   ${catkin_LIBRARIES}
 )
 target_link_libraries(yaw_pid
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(APM_actuator
   ${catkin_LIBRARIES}
 )
 #############
