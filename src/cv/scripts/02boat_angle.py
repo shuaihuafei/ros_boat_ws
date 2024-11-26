@@ -58,9 +58,9 @@ def image_callback(ros_image):
         image_height, image_width = cv_image.shape[:2]
         cx = image_width / 2  # Image center x
 
-        # Run YOLO prediction on the image
+        # Run YOLO prediction on the image, classes=[1]表示第二个分类也就是boat
         results = model.predict(
-            source=cv_image, show=False, classes=[0]
+            source=cv_image, show=False, classes=[1]
         )  # Detect class 0
 
         # Loop through the results
@@ -79,45 +79,45 @@ def image_callback(ros_image):
                 class_name = model.names[class_id]
 
                 # Only process if the class name is "boat"
-                if class_name == "boat":
-                    # Calculate the center of the bounding box
-                    box_center_x = (x1 + x2) / 2
+                # if class_name == "boat":
+                # Calculate the center of the bounding box
+                box_center_x = (x1 + x2) / 2
 
-                    # Calculate the difference between box center and image center
-                    dx = box_center_x - cx
+                # Calculate the difference between box center and image center
+                dx = box_center_x - cx
 
-                    # Calculate the angle offset in radians (for x-axis only)
-                    angle_x = math.atan(dx / fx)  # Horizontal angle
+                # Calculate the angle offset in radians (for x-axis only)
+                angle_x = math.atan(dx / fx)  # Horizontal angle
 
-                    # Convert angle to degrees
-                    angle_x_deg = math.degrees(angle_x)
+                # Convert angle to degrees
+                angle_x_deg = math.degrees(angle_x)
 
-                    # Publish only the angle
-                    angle_pub.publish(angle_x_deg)
+                # Publish only the angle
+                angle_pub.publish(angle_x_deg)
 
-                    rospy.loginfo(
-                        f"Detected {class_name} with confidence {confidence:.2f}"
-                    )
-                    rospy.loginfo(f"Angle to object (x-axis): {angle_x_deg} degrees")
+                rospy.loginfo(
+                    f"Detected {class_name} with confidence {confidence:.2f}"
+                )
+                rospy.loginfo(f"Angle to object (x-axis): {angle_x_deg} degrees")
 
-                    # Prepare the text to overlay (class name and angle)
-                    text = f"{class_name} ({confidence:.2f}) | Angle: {angle_x_deg:.2f} deg"
+                # Prepare the text to overlay (class name and angle)
+                text = f"{class_name} ({confidence:.2f}) | Angle: {angle_x_deg:.2f} deg"
 
-                    # Draw the bounding box
-                    cv2.rectangle(
-                        cv_image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2
-                    )
+                # Draw the bounding box
+                cv2.rectangle(
+                    cv_image, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2
+                )
 
-                    # Put the class name and angle information on the image
-                    cv2.putText(
-                        cv_image,
-                        text,
-                        (int(x1), int(y1) - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.6,
-                        (0, 255, 0),
-                        2,
-                    )
+                # Put the class name and angle information on the image
+                cv2.putText(
+                    cv_image,
+                    text,
+                    (int(x1), int(y1) - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.6,
+                    (0, 255, 0),
+                    2,
+                )
 
         # Calculate FPS
         if prev_time is not None:
