@@ -1,0 +1,12 @@
+<launch>
+    <!-- 定义控制值参数 -->
+    <!-- <arg name="yaw" default="0.0" /> -->
+    <!-- <arg name="throttle" default="0.6" /> -->
+
+    <!-- 将控制值通过参数传递给节点 -->
+    <param name="control_value_2" value="-0.2" />
+    <param name="control_value_3" value="0.5" />
+    <!-- 启动 actuator control 节点 -->
+    <node pkg="usv_run" type="002actuator_control_node" name="actuator_control_node" output="screen">
+    </node>
+</launch>

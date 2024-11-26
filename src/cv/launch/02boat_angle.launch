@@ -1,0 +1,4 @@
+<launch>
+    <node name="boat_angle" pkg="cv" type="02boat_angle.py" output="screen">
+    </node>
+</launch>

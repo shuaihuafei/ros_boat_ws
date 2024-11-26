@@ -1,0 +1,11 @@
+<launch>
+    <!-- 定义参数，使用args从命令行传入-->
+    <arg name="cam_deg_kp" default="5" />
+    <arg name="input_thrust" default="0.3" />
+
+    <!-- 启动节点，传递参数 -->
+    <node name="attitude_control_node_cam" pkg="usv_run" type="004attitude_control_node_cam" output="screen">
+        <param name="cam_deg_kp" value="$(arg cam_deg_kp)" />
+        <param name="input_thrust" value="$(arg input_thrust)" />
+    </node>
+</launch>

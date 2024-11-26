@@ -1,0 +1,7 @@
+<launch>
+  <!-- 启动 csv_plot_node 节点 -->
+  <node name="pid_plot" pkg="usv_run" type="pid_plot.py" output="screen">
+    <!-- 传递 CSV 文件路径作为参数 -->
+    <param name="csv_file" value="/home/shuai/ros_boat_ws/boat_data_pid_test.csv"/>
+  </node>
+</launch>

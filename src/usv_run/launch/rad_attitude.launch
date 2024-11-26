@@ -1,0 +1,7 @@
+<launch>
+    <!-- 启动无人船控制节点，并设置其参数 -->
+    <node name="usv_attitude" pkg="usv_run" type="08usv_attitude" output="screen">
+        <param name="Kp" value="1" />  <!-- 比例控制系数，可根据需要调整 -->
+        <param name="target_thrust" value="0.2" />  <!-- 推力值，可根据需要调整 -->
+    </node>
+</launch>

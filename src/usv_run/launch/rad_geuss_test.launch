@@ -1,0 +1,10 @@
+<launch>
+    <!-- 定义参数：linear_z_speed -->
+    <arg name="linear_z_speed" default="10" />  <!-- 可调整的速度参数，默认值设置为 1.0 -->
+    <arg name="target_yaw_angle" default="-45" />
+    <!-- 启动无人船节点 -->
+    <node name="usv_test_geuss_test" pkg="usv_run" type="09usv_test_geuss_test" output="screen">
+        <param name="linear_z_speed" value="$(arg linear_z_speed)" />
+        <param name="target_yaw_angle" value="$(arg target_yaw_angle)" />
+    </node>
+</launch>

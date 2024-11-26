@@ -1,0 +1,18 @@
+<launch>
+    <node name="06usv_rad_linev_pid" pkg="usv_run" type="06usv_rad_linev_pid" output="screen">
+        <!-- 第一套PID参数：用于摄像头角度控制 -->
+        <param name="kp_yaw" value="0.5" />
+        <param name="ki_yaw" value="0.1" />
+        <param name="kd_yaw" value="0.05" />
+
+        <!-- 第二套PID参数：用于船坞角度控制 -->
+        <param name="kp_dock" value="0.5" />
+        <param name="ki_dock" value="0.1" />
+        <param name="kd_dock" value="0.05" />
+
+        <!-- 第三套PID参数：用于推进速度控制 -->
+        <param name="kp_speed" value="0.3" />
+        <param name="ki_speed" value="0.1" />
+        <param name="kd_speed" value="0.02" />
+    </node>
+</launch>

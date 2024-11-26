@@ -1,0 +1,4 @@
+<launch>
+    <node name="dock_angle" pkg="cv" type="01dock_angle.py" output="screen">
+    </node>
+</launch>

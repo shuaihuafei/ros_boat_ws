@@ -1,0 +1,8 @@
+<launch>
+    <!-- 定义参数：linear_z_speed -->
+    <arg name="linear_z_speed" default="0.5" />  <!-- 可调整的速度参数，默认值设置为 1.0 -->
+    <!-- 启动无人船节点 -->
+    <node name="usv_test_geuss" pkg="usv_run" type="09usv_test_geuss" output="screen">
+        <param name="linear_z_speed" value="$(arg linear_z_speed)" />
+    </node>
+</launch>

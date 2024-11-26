@@ -1,0 +1,19 @@
+<launch>
+    <!-- 启动boat_run_with_yaw_control_pid节点，并设置PID参数 -->
+    <node name="05usv_rad_pid" pkg="usv_run" type="05usv_rad_pid" output="screen">
+    <!-- 启动 boat_run_with_yaw_control_pid 节点，并配置 PID 参数 -->
+    <node name="boat_run_with_yaw_control_pid" pkg="usv_run" type="boat_run_with_yaw_control_pid" output="screen">
+        <!-- 第一套PID参数：用于摄像头角度控制 -->
+        <param name="kp_yaw" value="0.5" />
+        <param name="ki_yaw" value="0.1" />
+        <param name="kd_yaw" value="0.05" />
+
+        <!-- 第二套PID参数：用于船坞角度控制 -->
+        <param name="kp_dock" value="0.5" />
+        <param name="ki_dock" value="0.1" />
+        <param name="kd_dock" value="0.05" />
+    </node>
+</launch>
+
+    </node>
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+    <node name="detect_aruco_angle" pkg="cv" type="detect_aruco_angle.py" output="screen">
+    </node>
+</launch>

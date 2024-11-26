@@ -1,0 +1,3 @@
+[submodule "src/cv/ultralytics"]
+	path = src/cv/ultralytics
+	url = https://github.com/ultralytics/ultralytics.git

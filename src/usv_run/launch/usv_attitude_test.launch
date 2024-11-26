@@ -1,0 +1,13 @@
+<launch>
+    <!-- 定义可以通过命令行传入的参数 -->
+    <arg name="launch_angle" default="10.0"/>
+    <arg name="Kp" default="0.01" />
+    <arg name="target_thrust" default="0.3" />
+
+    <!-- 启动船控制节点，并将参数传递给节点 -->
+    <node pkg="usv_run" type="08usv_attitude_test" name="usv_attitude_test"  output="screen">
+        <param name="launch_angle" value="$(arg launch_angle)"/>
+        <param name="Kp" value="$(arg Kp)"/>
+        <param name="target_thrust" value="$(arg target_thrust)"/>
+    </node>
+</launch>

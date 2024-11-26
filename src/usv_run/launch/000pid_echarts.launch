@@ -1,0 +1,8 @@
+<launch>
+    <!-- 传入 CSV 文件名和输出路径 -->
+    <param name="csv_file" value="boat_data_pid_test.csv"/>
+    <param name="output_path" value="/home/shuai/ros_boat_ws/"/>
+    
+    <!-- 启动 Python 节点 -->
+    <node name="pid_pyecharts" pkg="usv_run" type="pid_echarts.py" output="screen"/>
+</launch>

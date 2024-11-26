@@ -1,0 +1,5 @@
+<launch>
+    <!-- 启动 actuator_control_listener 节点 -->
+    <node name="actuator_control_listener" pkg="usv_run" type="001actuator_control_listener" output="screen">
+    </node>
+</launch>

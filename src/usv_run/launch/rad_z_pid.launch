@@ -1,0 +1,8 @@
+<launch>
+    <node name="07usv_rad_z_pid" pkg="usv_run" type="07usv_rad_z_pid" output="screen">
+        <!-- 设置 PID 参数，便于调试 -->
+        <param name="kp" value="0.5"/>
+        <param name="ki" value="0.0"/>
+        <param name="kd" value="0.1"/>
+    </node>
+</launch>

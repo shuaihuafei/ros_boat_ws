@@ -1,0 +1,10 @@
+<launch>
+    <!-- 定义 linear_z_speed 参数（如果未传入参数，将使用默认值 0.5） -->
+    <arg name="linear_z_speed" default="10" />
+
+    <!-- 启动无人船控制节点 -->
+    <node name="go_line" pkg="usv_run" type="02go_line" output="screen">
+        <!-- 传递参数 -->
+        <param name="linear_z_speed" value="$(arg linear_z_speed)" />
+    </node>
+</launch>

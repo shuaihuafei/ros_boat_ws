@@ -1,0 +1,11 @@
+<launch>
+    <!-- 定义可以通过命令行传入的参数 -->
+    <arg name="Kp" default="0.5" />
+    <arg name="target_thrust" default="0.5" />
+
+    <!-- 启动船控制节点，并将参数传递给节点 -->
+    <node pkg="usv_run" type="08usv_attitude1" name="usv_attitude1">
+        <param name="Kp" value="$(arg Kp)"/>
+        <param name="target_thrust" value="$(arg target_thrust)"/>
+    </node>
+</launch>

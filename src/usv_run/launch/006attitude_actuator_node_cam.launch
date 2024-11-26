@@ -1,0 +1,42 @@
+<launch>
+    <!-- 定义参数，使用args从命令行传入-->
+    <arg name="kp_d" default="0.05" />
+    <arg name="deg_th" default="22.0" />
+    <arg name="pid_throttle_output" default="0.0" />
+
+    <arg name="kp_yaw" default="1.5" />
+    <arg name="ki_yaw" default="0.001" />
+    <arg name="kd_yaw" default="0.015" />
+    <arg name="output_limit_yaw_l" default="-1.0" />
+    <arg name="output_limit_yaw_r" default="1.0" />
+    <arg name="integral_limit_yaw" default="2.0" />
+
+    <arg name="kp_throttle" default="1.0" />
+    <arg name="ki_throttle" default="0.0" />
+    <arg name="kd_throttle" default="0.0" />
+    <arg name="output_limit_throttle_l" default="0.0" />
+    <arg name="output_limit_throttle_r" default="1.0" />
+    <arg name="integral_limit_throttle" default="2.0" />
+
+    <!-- 启动节点，传递参数 -->
+    <node name="attitude_actuator_node_cam" pkg="usv_run" type="006attitude_actuator_node_cam" output="screen">
+        <param name="kp_d" value="$(arg kp_d)" />
+        <param name="deg_th" value="$(arg deg_th)" />
+        <param name="pid_throttle_output" value="$(arg pid_throttle_output)" />
+
+        <param name="kp_yaw" value="$(arg kp_yaw)" />
+        <param name="ki_yaw" value="$(arg ki_yaw)" />
+        <param name="kd_yaw" value="$(arg kd_yaw)" />
+        <param name="output_limit_yaw_l" value="$(arg output_limit_yaw_l)" />
+        <param name="output_limit_yaw_r" value="$(arg output_limit_yaw_r)" />
+        <param name="integral_limit_yaw" value="$(arg integral_limit_yaw)" />
+
+        <param name="kp_throttle" value="$(arg kp_throttle)" />
+        <param name="ki_throttle" value="$(arg ki_throttle)" />
+        <param name="kd_throttle" value="$(arg kd_throttle)" />
+        <param name="output_limit_throttle_l" value="$(arg output_limit_throttle_l)" />
+        <param name="output_limit_throttle_r" value="$(arg output_limit_throttle_r)" />
+        <param name="integral_limit_throttle" value="$(arg integral_limit_throttle)" />
+        
+    </node>
+</launch>

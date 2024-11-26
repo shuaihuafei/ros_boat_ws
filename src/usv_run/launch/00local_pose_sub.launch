@@ -1,0 +1,4 @@
+<launch>
+    <node name="local_pose_sub" pkg="usv_run" type="00local_pose_sub" output="screen">
+    </node>
+</launch>

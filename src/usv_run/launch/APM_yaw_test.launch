@@ -1,0 +1,21 @@
+<launch>
+    <!-- 定义可调整的参数 -->
+    <arg name="pid_frequency" default="20.0" /> <!-- 控制时间间隔，默认为20Hz -->
+    <arg name="yaw_kp" default="0.5" />        <!-- PID 比例增益 -->
+    <arg name="yaw_ki" default="0.1" />        <!-- PID 积分增益 -->
+    <arg name="yaw_kd" default="0.01" />       <!-- PID 微分增益 -->
+    <arg name="yaw_imax" default="10.0" />     <!-- PID 积分器限制 -->
+    <arg name="yaw_fCut" default="20.0" />     <!-- 微分滤波频率 -->
+
+    <!-- 启动 yaw_control_node -->
+    <node name="yaw_pid" pkg="usv" type="yaw_pid" output="screen">
+        <param name="pid_frequency" value="$(arg pid_frequency)" />
+
+        <!-- PID 参数 -->
+        <param name="yaw_kp" value="$(arg yaw_kp)" />
+        <param name="yaw_ki" value="$(arg yaw_ki)" />
+        <param name="yaw_kd" value="$(arg yaw_kd)" />
+        <param name="yaw_imax" value="$(arg yaw_imax)" />
+        <param name="yaw_fCut" value="$(arg yaw_fCut)" />
+    </node>
+</launch>
