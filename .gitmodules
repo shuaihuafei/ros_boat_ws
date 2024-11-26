@@ -1,3 +1,6 @@
 [submodule "src/cv/ultralytics"]
 	path = src/cv/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
+[submodule "src/OrbbecSDK_ROS1"]
+	path = src/OrbbecSDK_ROS1
+	url = https://github.com/orbbec/OrbbecSDK_ROS1.git
