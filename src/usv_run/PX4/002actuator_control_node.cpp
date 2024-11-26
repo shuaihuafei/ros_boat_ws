@@ -97,7 +97,7 @@ private:
         // 设置电机控制值
         actuator_control_msg.controls[0] = 0.0;
         actuator_control_msg.controls[1] = 0.0;
-        actuator_control_msg.controls[2] =
+        actuator_control_msg.controls[2] = control_value_2;
         actuator_control_msg.controls[3] = control_value_3;
         actuator_control_msg.controls[4] = 0.0;
         actuator_control_msg.controls[5] = 0.0;
