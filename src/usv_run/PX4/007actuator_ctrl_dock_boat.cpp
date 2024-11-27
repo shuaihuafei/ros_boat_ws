@@ -252,15 +252,15 @@ public:
         }
         else{
 
-            if(current_yaw < M_PI)
-            {
+            // if(current_yaw < M_PI)
+            // {
                 pid_yaw_output = -1;
                 pid_throttle_output = 0;
-            }
-            else if(current_yaw <= 2 * M_PI){
-                pid_yaw_output = 1;
-                pid_throttle_output = 0;
-            }
+            // }
+            // else if(current_yaw <= 2 * M_PI){
+            //     pid_yaw_output = 1;
+            //     pid_throttle_output = 0;
+            // }
 
             mavros_msgs::ActuatorControl actuator_control_msg;
             // 设置电机控制值

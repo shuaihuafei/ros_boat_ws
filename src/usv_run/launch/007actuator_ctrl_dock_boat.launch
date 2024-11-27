@@ -4,7 +4,7 @@
     <arg name="deg_th" default="22.0" />
     <arg name="pid_throttle_output" default="0.0" />
     <!-- ### 这个是要调的 ### -->
-    <arg name="kp_boat_angle" default="0.9" />
+    <arg name="kp_boat_angle" default="1.1" />
 
     <arg name="kp_yaw" default="1.5" />
     <arg name="ki_yaw" default="0.001" />
