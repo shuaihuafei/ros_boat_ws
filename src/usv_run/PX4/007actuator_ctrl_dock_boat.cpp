@@ -7,6 +7,7 @@
 #include <geometry_msgs/Quaternion.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/TwistStamped.h>
+#include <sensor_msgs/NavSatFix.h>
 #include <std_msgs/Header.h>
 #include <std_msgs/Float64.h>
 #include <cmath>
@@ -153,6 +154,7 @@ public:
         actuator_control_sub = nh_.subscribe("/mavros/target_actuator_control", 10, &AttitudeControlNode::actuatorControlCallback, this);
         actuator_control_pub = nh_.advertise<mavros_msgs::ActuatorControl>("/mavros/actuator_control", 10);
         pose_sub = nh_.subscribe("/mavros/local_position/pose", 10, &AttitudeControlNode::poseCallback, this);
+        global_sub = nh_.subscribe("/mavros/global_position/global", 10, &AttitudeControlNode::globalCallback, this);
         local_velocity_body_sub = nh_.subscribe("/mavros/local_position/velocity_body", 10, &AttitudeControlNode::localVelocityBodyCallback, this);
         set_mode_client = nh_.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
         arming_client = nh_.serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
@@ -179,7 +181,7 @@ public:
         // 这个CSV文件用来记录实验数据
         output_file_pid.open("/home/shuai/ros_boat_ws/boat_data_pid.csv", std::ios::app);
         if (output_file_pid.is_open()) {
-            output_file_pid << "time,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
+            output_file_pid << "time,latitude,longitude,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
         } else {
             ROS_ERROR("Failed to open CSV file for logging.");
         }
@@ -187,7 +189,7 @@ public:
         // 这个CSV文件用来调试PID
         output_file_pid_test.open("/home/shuai/ros_boat_ws/boat_data_pid_test.csv", std::ios::out);
         if (output_file_pid_test.is_open()) {
-            output_file_pid_test << "time,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
+            output_file_pid_test << "time,latitude,longitude,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
         } else {
             ROS_ERROR("Failed to open CSV file for logging.");
         }
@@ -342,6 +344,11 @@ public:
         yaw_angle = yaw_deg;
     }
 
+    void globalCallback(const sensor_msgs::NavSatFix::ConstPtr& msg) {
+        latitude = msg->latitude;    // 获取纬度
+        longitude = msg->longitude;  // 获取经度
+    }
+
     // 定时器回调函数，用于检测消息超时
     void checkDockTimeout(const ros::TimerEvent&) {
         // 如果超过 5 秒没有接收到消息，设置 dock_angle 为 0
@@ -470,8 +477,10 @@ public:
             if (update_counter % 10 == 0) {
                 updateActuatorControl();
                 update_counter = 0;
-                
+
                 output_file_pid << currentTime << ","
+                            << latitude << ","
+                            << longitude << ","
                             << position_x << ","
                             << position_y << ","
                             << position_z << ","
@@ -490,6 +499,8 @@ public:
                             << control_signal_3 << "\n";
                 // 记录到PID调试CSV文件
                 output_file_pid_test << currentTime << ","
+                            << latitude << ","
+                            << longitude << ","
                             << position_x << ","
                             << position_y << ","
                             << position_z << ","
@@ -516,7 +527,7 @@ public:
 
 private:
     ros::NodeHandle nh_;
-    ros::Subscriber state_sub, actuator_control_sub, pose_sub, local_velocity_body_sub, dock_angle_sub, boat_angle_sub;
+    ros::Subscriber state_sub, actuator_control_sub, pose_sub, global_sub, local_velocity_body_sub, dock_angle_sub, boat_angle_sub;
     ros::Publisher actuator_control_pub;
     ros::ServiceClient set_mode_client, arming_client;
 
@@ -538,6 +549,7 @@ private:
     float control_signal_2, control_signal_3;
 
     double position_x, position_y, position_z, roll_angle, pitch_angle, yaw_angle;
+    double latitude, longitude;
     double v_body_x, v_body_y, v_body_z, w_body_x, w_body_y, w_body_z;
     ros::Time last_update_time;
     std::ofstream output_file_pid, output_file_pid_test;
