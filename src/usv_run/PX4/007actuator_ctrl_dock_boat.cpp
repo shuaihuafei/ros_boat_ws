@@ -171,7 +171,7 @@ public:
         dock_angle = 0.0;
         boat_angle = 0.0;
         current_v_body_x = 0.0;
-        record_counter = 0;
+        update_counter = 0;
         control_signal_2 = 0.0;
         control_signal_3 = 0.0;
         pid_yaw_output = 0.0;
@@ -467,47 +467,47 @@ public:
 
             std::string currentTime = getCurrentTimeString();
 
-            if (record_counter % 10 == 0) {
+            if (update_counter % 10 == 0) {
                 updateActuatorControl();
-                record_counter = 0;
+                update_counter = 0;
+                
+                output_file_pid << currentTime << ","
+                            << position_x << ","
+                            << position_y << ","
+                            << position_z << ","
+                            << yaw_angle << ","
+                            << v_body_x << ","
+                            << dock_angle << ","
+                            << boat_angle << ","
+                            << (current_yaw * 180.0 / M_PI) << ","
+                            << (desired_yaw * 180.0 / M_PI) << ","
+                            << des_cur_error << ","
+                            << kp_d << ","
+                            << deg_th << ","
+                            << pid_yaw_output << ","
+                            << pid_throttle_output << ","
+                            << control_signal_2 << ","
+                            << control_signal_3 << "\n";
+                // 记录到PID调试CSV文件
+                output_file_pid_test << currentTime << ","
+                            << position_x << ","
+                            << position_y << ","
+                            << position_z << ","
+                            << yaw_angle << ","
+                            << v_body_x << ","
+                            << dock_angle << ","
+                            << boat_angle << ","
+                            << (current_yaw * 180.0 / M_PI) << ","
+                            << (desired_yaw * 180.0 / M_PI) << ","
+                            << des_cur_error << ","
+                            << kp_d << ","
+                            << deg_th << ","
+                            << pid_yaw_output << ","
+                            << pid_throttle_output << ","
+                            << control_signal_2 << ","
+                            << control_signal_3 << "\n";
             }
-            record_counter++;
-            // num_count++;
-            output_file_pid << currentTime << ","
-                        << position_x << ","
-                        << position_y << ","
-                        << position_z << ","
-                        << yaw_angle << ","
-                        << v_body_x << ","
-                        << dock_angle << ","
-                        << boat_angle << ","
-                        << (current_yaw * 180.0 / M_PI) << ","
-                        << (desired_yaw * 180.0 / M_PI) << ","
-                        << des_cur_error << ","
-                        << kp_d << ","
-                        << deg_th << ","
-                        << pid_yaw_output << ","
-                        << pid_throttle_output << ","
-                        << control_signal_2 << ","
-                        << control_signal_3 << "\n";
-            // 记录到PID调试CSV文件
-            output_file_pid_test << currentTime << ","
-                        << position_x << ","
-                        << position_y << ","
-                        << position_z << ","
-                        << yaw_angle << ","
-                        << v_body_x << ","
-                        << dock_angle << ","
-                        << boat_angle << ","
-                        << (current_yaw * 180.0 / M_PI) << ","
-                        << (desired_yaw * 180.0 / M_PI) << ","
-                        << des_cur_error << ","
-                        << kp_d << ","
-                        << deg_th << ","
-                        << pid_yaw_output << ","
-                        << pid_throttle_output << ","
-                        << control_signal_2 << ","
-                        << control_signal_3 << "\n";
+            update_counter++;
 
             ros::spinOnce();
             rate.sleep();
@@ -534,8 +534,7 @@ private:
     double pid_yaw_output;
     double pid_throttle_output;
     bool flag_yaw, flag_v_x;
-    int record_counter;
-    // int num_count = 0;
+    int update_counter;
     float control_signal_2, control_signal_3;
 
     double position_x, position_y, position_z, roll_angle, pitch_angle, yaw_angle;
