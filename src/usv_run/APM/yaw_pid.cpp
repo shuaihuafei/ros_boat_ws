@@ -114,6 +114,9 @@ public:
         state_sub_ = nh_.subscribe("/mavros/state", 10, &YawControlNode::stateCallback, this);
         actuator_control_pub_ = nh_.advertise<mavros_msgs::ActuatorControl>("/mavros/actuator_control", 10);
 
+        // 创建定时器，每0.5秒更新一次target_angle_
+        target_angle_timer_ = nh_.createTimer(ros::Duration(0.5), &YawControlNode::updateTargetAngle, this);
+
         ROS_INFO("Yaw Control Node initialized.");
     }
 
@@ -146,17 +149,21 @@ private:
     ros::Subscriber pose_sub_;
     ros::Subscriber state_sub_;
     ros::Publisher actuator_control_pub_;
+    ros::Timer target_angle_timer_;  // 定时器
 
     mavros_msgs::State current_state_;
     float target_angle_;     // 当前目标角度
     float current_angle_;    // 当前航向角
     float fixed_thrust_;     // 固定推力
+    float cam_yaw_angle;
     PID yaw_pid_;            // PID 控制器
 
     // 从视觉模块更新目标角度
     void objectAngleCallback(const std_msgs::Float32::ConstPtr& msg) {
-        float cam_yaw_angle = msg->data; // 从消息中获取摄像头角度
-        target_angle_ = -1 * cam_yaw_angle * M_PI / 180.0 + current_angle_; // 根据当前航向修正目标
+        // 从消息中获取摄像头角度（假设是以度为单位）
+        cam_yaw_angle = msg->data;
+
+        // 将相机角度从度转换为弧度，并根据当前航向角更新目标角度
         ROS_INFO("Updated target angle from camera: %.2f radians", target_angle_);
     }
 
@@ -198,6 +205,14 @@ private:
         }
 
         actuator_control_pub_.publish(actuator_msg);
+    }
+
+    // 定时器回调函数，每0.5秒更新一次目标角度
+    void updateTargetAngle(const ros::TimerEvent& event) {
+        // 每0.5秒更新目标角度
+        // 这里可以增加其他逻辑，修改 target_angle_
+        target_angle_ = (-1  *  (cam_yaw_angle * M_PI / 180.0)) + current_angle_;  // 弧度制
+        ROS_INFO("Target angle updated every 0.5s.");
     }
 };
 
