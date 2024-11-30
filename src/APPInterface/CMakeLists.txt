@@ -1,10 +1,8 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(usv_run)
+project(APPInterface)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++17)
-
-set(mavros_msgs_DIR "/home/shuai/mavros_ws/devel/share/mavros_msgs/cmake")
+# add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -12,15 +10,24 @@ set(mavros_msgs_DIR "/home/shuai/mavros_ws/devel/share/mavros_msgs/cmake")
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  std_msgs
-  geometry_msgs
-  mavros_msgs
-  common
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+find_package(Qt5 REQUIRED COMPONENTS Widgets)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(SOURCES
+    src/mainwindow.cpp
+    src/BoatCtlApp.cpp
+)
+
+set(FORMS
+    src/mainwindow.ui
+)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -75,7 +82,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -109,8 +116,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES usv_run
- CATKIN_DEPENDS roscpp rospy std_msgs geometry_msgs common
+#  LIBRARIES APPInterface
+#  CATKIN_DEPENDS roscpp rospy
 #  DEPENDS system_lib
 )
 
@@ -127,7 +134,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/usv_run.cpp
+#   src/${PROJECT_NAME}/APPInterface.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -138,31 +145,8 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(00local_pose_sub PX4/00local_pose_sub.cpp)
-add_executable(001actuator_control_listener PX4/001actuator_control_listener.cpp)
-add_executable(002actuator_control_node PX4/002actuator_control_node.cpp)
-add_executable(003attitude_control_node PX4/003attitude_control_node.cpp)
-add_executable(004attitude_control_node_cam PX4/004attitude_control_node_cam.cpp)
-add_executable(005attitude_actuator_node PX4/005attitude_actuator_node.cpp)
-add_executable(006attitude_actuator_node_cam PX4/006attitude_actuator_node_cam.cpp)
-add_executable(007actuator_ctrl_dock_boat PX4/007actuator_ctrl_dock_boat.cpp)
-add_executable(01amov_run PX4/01amov_run.cpp)
-add_executable(02go_line PX4/02go_line.cpp)
-add_executable(03usv_rad_p PX4/03usv_rad_p.cpp)
-add_executable(04usv_rad_z_fall PX4/04usv_rad_z_fall.cpp)
-add_executable(05usv_rad_pid PX4/05usv_rad_pid.cpp)
-add_executable(06usv_rad_linev_pid PX4/06usv_rad_linev_pid.cpp)
-add_executable(07usv_rad_z_pid PX4/07usv_rad_z_pid.cpp)
-add_executable(09usv_test_geuss PX4/09usv_test_geuss.cpp)
-add_executable(09usv_test_geuss_test PX4/09usv_test_geuss_test.cpp)
-
-
-
-## APM
-add_executable(APM_yaw APM/APM_yaw.cpp)
-add_executable(yaw_test APM/yaw_test.cpp)
-add_executable(yaw_pid APM/yaw_pid.cpp)
-add_executable(APM_actuator APM/APM_actuator.cpp)
+# add_executable(${PROJECT_NAME}_node src/APPInterface_node.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES} ${FORMS})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -175,71 +159,12 @@ add_executable(APM_actuator APM/APM_actuator.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(00local_pose_sub
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(001actuator_control_listener
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(002actuator_control_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(003attitude_control_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(004attitude_control_node_cam
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(005attitude_actuator_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(006attitude_actuator_node_cam
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(007actuator_ctrl_dock_boat
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(01amov_run
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(02go_line
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(03usv_rad_p
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(04usv_rad_z_fall
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(05usv_rad_pid
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(06usv_rad_linev_pid
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(07usv_rad_z_pid
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(09usv_test_geuss
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(09usv_test_geuss_test
-  ${catkin_LIBRARIES}
-)
+# target_link_libraries(${PROJECT_NAME}_node
+#   ${catkin_LIBRARIES}
+# )
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 
-##APM
-target_link_libraries(APM_yaw
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(yaw_test
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(yaw_pid
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(APM_actuator
-  ${catkin_LIBRARIES}
-)
 #############
 ## Install ##
 #############
@@ -253,11 +178,6 @@ target_link_libraries(APM_actuator
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
-catkin_install_python(PROGRAMS
-  scripts/pid_plot.py
-  scripts/pid_echarts.py
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
@@ -292,7 +212,7 @@ catkin_install_python(PROGRAMS
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_usv_run.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_APPInterface.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

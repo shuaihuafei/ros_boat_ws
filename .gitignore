@@ -3,6 +3,8 @@ devel/
 logs/
 .catkin_tools/
 .vscode/
+.qtc_clangd/
 .catkin_workspace
 *.csv
 *.html
+*.workspace.user
