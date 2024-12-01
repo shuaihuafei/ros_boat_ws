@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(APPInterface)
+project(app_interface)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -22,7 +22,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(SOURCES
     src/mainwindow.cpp
-    src/BoatCtlApp.cpp
+    src/boatCtlApp.cpp
 )
 
 set(FORMS
@@ -116,7 +116,7 @@ set(FORMS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES APPInterface
+#  LIBRARIES app_interface
 #  CATKIN_DEPENDS roscpp rospy
 #  DEPENDS system_lib
 )
@@ -134,7 +134,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/APPInterface.cpp
+#   src/${PROJECT_NAME}/app_interface.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -145,7 +145,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/APPInterface_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/app_interface_node.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES} ${FORMS})
 
 ## Rename C++ executable without prefix
@@ -212,7 +212,7 @@ target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_APPInterface.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_app_interface.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
