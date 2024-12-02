@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ros/ros.h"
+#include <sensor_msgs/Image.h>
 
 namespace Ui {
 class MainWindow;
@@ -18,9 +19,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
-private:
-    void initROS(int argc, char **argv);
 };
 
 #endif // MAINWINDOW_H

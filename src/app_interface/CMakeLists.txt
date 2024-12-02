@@ -3,6 +3,7 @@ project(app_interface)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
+add_compile_options(-std=c++17)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -10,14 +11,18 @@ project(app_interface)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  sensor_msgs
+  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 find_package(Qt5 REQUIRED COMPONENTS Widgets)
+find_package(OpenCV REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(SOURCES
@@ -25,8 +30,16 @@ set(SOURCES
     src/boatCtlApp.cpp
 )
 
+SET(HEADERS 
+    include/mainwindow.h
+)
+
 set(FORMS
     src/mainwindow.ui
+)
+
+SET(RESOURCES
+    qrc/res.qrc
 )
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -117,7 +130,7 @@ set(FORMS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES app_interface
-#  CATKIN_DEPENDS roscpp rospy
+ CATKIN_DEPENDS roscpp rospy sensor_msgs cv_bridge
 #  DEPENDS system_lib
 )
 
@@ -128,8 +141,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INLCUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -146,7 +160,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/app_interface_node.cpp)
-add_executable(${PROJECT_NAME} ${SOURCES} ${FORMS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FORMS} ${RESOURCES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -162,7 +176,7 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${FORMS})
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 
 #############
