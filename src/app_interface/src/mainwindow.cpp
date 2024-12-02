@@ -4,6 +4,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QRadialGradient>
+#include <QProcess>
 
 MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     : QMainWindow(parent)
@@ -13,6 +14,21 @@ MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     ros::init(argc, argv, "ControlTurtlesimNode");
 
     ros::NodeHandle nh;
+
+    // 启动 roscore
+    QProcess *roscoreProcess = new QProcess(this);  // 创建 QProcess 对象
+    roscoreProcess->start("roscore");  // 启动 roscore
+
+    if (!roscoreProcess->waitForStarted()) {  // 检查 roscore 是否启动成功
+        qDebug() << "启动 roscore 失败！";
+    } else {
+        qDebug() << "roscore 已启动";
+    }
+
+    // ui->label_log->setStyleSheet("QLabel { border-image:url(:/images/logo.jpg) }");
+    // ui->label_attitude->setStyleSheet("QLabel { border-image:url(:/images/attitude.png) }");
+    // ui->label_speed->setStyleSheet("QLabel { border-image:url(:/images/speed.png) }");
+    // ui->label_map->setStyleSheet("QLabel { border-image:url(:/images/map.png) }");
 
     QPixmap pixmap_logo(":/images/logo.jpg");
     ui->label_log->setPixmap(pixmap_logo);
