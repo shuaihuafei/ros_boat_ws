@@ -18,7 +18,7 @@ package_path = rospack.get_path("cv")  # 功能包的名称
 # 模型路径
 # model_relative_path = "ultralytics/yolo11n.pt"
 # model_relative_path = "ultralytics/yolo11n_openvino_model/"
-model_relative_path = "ultralytics/runs/detect/train15/weights/best.pt"
+model_relative_path = "ultralytics/runs/detect/train16_dock1/weights/best.pt"
 # model_relative_path = "ultralytics/runs/detect/train14/weights/best_openvino_model/"
 
 # 组合完整路径
