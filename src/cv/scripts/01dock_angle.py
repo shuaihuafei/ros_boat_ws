@@ -58,9 +58,9 @@ def image_callback(ros_image):
         image_height, image_width = cv_image.shape[:2]
         cx = image_width / 2  # Image center x
 
-        # Run YOLO prediction on the image, classes=[0]表示第一个分类也就是dock
+        # Run YOLO prediction on the image, classes=[2]表示第一个分类也就是dock1
         results = model.predict(
-            source=cv_image, show=False, classes=[0]
+            source=cv_image, show=False, classes=[2]
         )  # Detect class 0
 
         # Loop through the results
@@ -95,9 +95,7 @@ def image_callback(ros_image):
                 # Publish only the angle
                 angle_pub.publish(angle_x_deg)
 
-                rospy.loginfo(
-                    f"Detected {class_name} with confidence {confidence:.2f}"
-                )
+                rospy.loginfo(f"Detected {class_name} with confidence {confidence:.2f}")
                 rospy.loginfo(f"Angle to object (x-axis): {angle_x_deg} degrees")
 
                 # Prepare the text to overlay (class name and angle)
