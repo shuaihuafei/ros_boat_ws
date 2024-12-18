@@ -138,25 +138,8 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(00local_pose_sub PX4/00local_pose_sub.cpp)
-add_executable(001actuator_control_listener PX4/001actuator_control_listener.cpp)
 add_executable(002actuator_control_node PX4/002actuator_control_node.cpp)
-add_executable(003attitude_control_node PX4/003attitude_control_node.cpp)
-add_executable(004attitude_control_node_cam PX4/004attitude_control_node_cam.cpp)
-add_executable(005attitude_actuator_node PX4/005attitude_actuator_node.cpp)
-add_executable(006attitude_actuator_node_cam PX4/006attitude_actuator_node_cam.cpp)
 add_executable(007actuator_ctrl_dock_boat PX4/007actuator_ctrl_dock_boat.cpp)
-add_executable(01amov_run PX4/01amov_run.cpp)
-add_executable(02go_line PX4/02go_line.cpp)
-add_executable(03usv_rad_p PX4/03usv_rad_p.cpp)
-add_executable(04usv_rad_z_fall PX4/04usv_rad_z_fall.cpp)
-add_executable(05usv_rad_pid PX4/05usv_rad_pid.cpp)
-add_executable(06usv_rad_linev_pid PX4/06usv_rad_linev_pid.cpp)
-add_executable(07usv_rad_z_pid PX4/07usv_rad_z_pid.cpp)
-add_executable(09usv_test_geuss PX4/09usv_test_geuss.cpp)
-add_executable(09usv_test_geuss_test PX4/09usv_test_geuss_test.cpp)
-
-
 
 ## APM
 add_executable(APM_yaw APM/APM_yaw.cpp)
@@ -175,55 +158,10 @@ add_executable(APM_actuator APM/APM_actuator.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(00local_pose_sub
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(001actuator_control_listener
-  ${catkin_LIBRARIES}
-)
 target_link_libraries(002actuator_control_node
   ${catkin_LIBRARIES}
 )
-target_link_libraries(003attitude_control_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(004attitude_control_node_cam
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(005attitude_actuator_node
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(006attitude_actuator_node_cam
-  ${catkin_LIBRARIES}
-)
 target_link_libraries(007actuator_ctrl_dock_boat
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(01amov_run
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(02go_line
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(03usv_rad_p
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(04usv_rad_z_fall
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(05usv_rad_pid
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(06usv_rad_linev_pid
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(07usv_rad_z_pid
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(09usv_test_geuss
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(09usv_test_geuss_test
   ${catkin_LIBRARIES}
 )
 

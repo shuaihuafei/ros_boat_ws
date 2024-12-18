@@ -3,6 +3,7 @@
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/State.h>
+#include <signal.h>
 
 class ActuatorControlNode {
 public:
@@ -20,6 +21,10 @@ public:
         nh.param("control_value_3", control_value_3, 0.6);
         
         ROS_INFO("Control Value 2: %f, Control Value 3: %f", control_value_2, control_value_3);
+    }
+
+    ~ ActuatorControlNode(){
+        stopActuatorControl();
     }
 
     // 启动节点，进行控制
@@ -55,6 +60,24 @@ public:
             ros::spinOnce();
             rate.sleep();
         }
+    }
+    void stopActuatorControl() {
+        mavros_msgs::ActuatorControl actuator_control_msg;
+
+        // 设置电机控制值
+        actuator_control_msg.controls[0] = 0.0;
+        actuator_control_msg.controls[1] = 0.0;
+        actuator_control_msg.controls[2] = 0.0;
+        actuator_control_msg.controls[3] = 0.0;
+        actuator_control_msg.controls[4] = 0.0;
+        actuator_control_msg.controls[5] = 0.0;
+        actuator_control_msg.controls[6] = 0.0;
+        actuator_control_msg.controls[7] = 0.0;
+
+        actuator_control_msg.group_mix = 1;  // 控制组
+
+        // 发布控制信号
+        actuator_control_pub.publish(actuator_control_msg);
     }
 
 private:
@@ -104,11 +127,12 @@ private:
         actuator_control_msg.controls[6] = 0.0;
         actuator_control_msg.controls[7] = 0.0;
 
-        actuator_control_msg.group_mix = 0;  // 控制组
+        actuator_control_msg.group_mix = 1;  // 控制组
 
         // 发布控制信号
         actuator_control_pub.publish(actuator_control_msg);
     }
+
 
     // 设置飞行器为 OFFBOARD 模式
     bool setOffboardMode() {
@@ -136,13 +160,25 @@ private:
     }
 };
 
+ActuatorControlNode* global_node_ptr = nullptr;  // 用于存储 ActuatorControlNode 的全局指针
+
+void sigintHandler(int sig) {
+    if (global_node_ptr != nullptr) {
+        ROS_INFO("Shutting down, stopping actuator control...");
+        global_node_ptr->stopActuatorControl();  // 调用停止函数
+    }
+    ros::shutdown();  // 优雅地关闭 ROS 节点
+}
+
 int main(int argc, char **argv) {
     ros::init(argc, argv, "actuator_control_node");
 
-    // 创建 ROS NodeHandle 实例
     ros::NodeHandle nh;
-
     ActuatorControlNode node(nh);  // 创建 ActuatorControlNode 对象
+    global_node_ptr = &node;       // 将对象指针赋值给全局指针
+
+    signal(SIGINT, sigintHandler); // 注册 SIGINT 信号处理函数
+
     node.run();  // 运行控制
 
     return 0;
