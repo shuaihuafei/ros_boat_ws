@@ -89,6 +89,17 @@ void MainWindow::init_GUI()
     timer_spin = new QTimer(this);
     connect(timer_spin, &QTimer::timeout, this, &MainWindow::rosSpinOnce);
     timer_spin->start(50); // 每50毫秒调用一次 rosSpinOnce
+
+    // 初始化状态显示等订阅者
+    init_UpdateSubscriber();
+}
+
+void MainWindow::init_UpdateSubscriber()
+{
+    // 更新经纬度等信息显示
+    localPoseSubscriber = nh_->subscribe("/mavros/local_position/pose", 10, &MainWindow::localPoseCallback, this);
+    globalPositionSubscriber = nh_->subscribe("/mavros/global_position/global", 10, &MainWindow::globalPositionCallback, this);
+    localVelocitySubscriber = nh_->subscribe("/mavros/local_position/velocity_body", 10, &MainWindow::localVelocityCallback, this);
 }
 
 void MainWindow::rosSpinOnce()
@@ -363,6 +374,59 @@ void MainWindow::dockCamImageYoloCallback(const sensor_msgs::ImageConstPtr& msg)
     catch (cv_bridge::Exception& e) {
         qDebug() << "cv_bridge exception: " << e.what();
     }
+}
+
+// 用于四元数转换的辅助函数，将四元数转换为欧拉角（roll, pitch, yaw）
+void MainWindow::quaternion_to_euler(const geometry_msgs::Quaternion& q, double& roll, double& pitch, double& yaw) {
+    // 计算欧拉角
+    double sinr_cosp = 2.0 * (q.w * q.x + q.y * q.z);
+    double cosr_cosp = 1.0 - 2.0 * (q.x * q.x + q.y * q.y);
+    roll = atan2(sinr_cosp, cosr_cosp);
+
+    double sinp = 2.0 * (q.w * q.y - q.z * q.x);
+    if (fabs(sinp) >= 1)
+        pitch = copysign(M_PI / 2, sinp);  // 夹角范围 [-pi/2, pi/2]
+    else
+        pitch = asin(sinp);
+
+    double siny_cosp = 2.0 * (q.w * q.z + q.x * q.y);
+    double cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z);
+    yaw = atan2(siny_cosp, cosy_cosp);
+}
+
+void MainWindow::localPoseCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+{
+    // 获取位置
+    const geometry_msgs::Point& position = msg->pose.position;
+
+    // 获取四元数方向
+    const geometry_msgs::Quaternion& orientation = msg->pose.orientation;
+
+    // 转换四元数为欧拉角
+    double roll, pitch, yaw;
+    quaternion_to_euler(orientation, roll, pitch, yaw);
+
+    double yaw_deg = yaw * 180.0 / M_PI;
+
+    ui->label_ENU_X_value->setText(QString::number(position.x, 'f', 2) + "m");
+    ui->label_ENU_Y_value->setText(QString::number(position.y, 'f', 2) + "m");
+    ui->label_yaw_value->setText(QString::number(yaw_deg, 'f', 2) + "°");
+}
+
+void MainWindow::globalPositionCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
+{
+    double latitude = msg->latitude;    // 获取纬度
+    double longitude = msg->longitude;  // 获取经度
+
+    ui->label_latitude_value->setText(QString::number(latitude, 'f', 3) + "°");
+    ui->label_longitude_value->setText(QString::number(longitude, 'f', 3) + "°");
+}
+
+void MainWindow::localVelocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg)
+{
+    double v_body_x = msg->twist.linear.x;
+
+    ui->label_throttle_value->setText(QString::number(v_body_x, 'f', 2) + "m/s");
 }
 
 // 启动入坞相关程序

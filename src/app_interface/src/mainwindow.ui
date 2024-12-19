@@ -704,7 +704,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab">
           <attribute name="title">
@@ -718,24 +718,10 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="label_longitude_value">
+           <item row="2" column="3">
+            <widget class="QLabel" name="label_throttle_value">
              <property name="text">
-              <string>119.36°</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_latitude">
-             <property name="text">
-              <string>经度:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QLabel" name="label_latitude_value">
-             <property name="text">
-              <string>32.12°</string>
+              <string>0m/s</string>
              </property>
             </widget>
            </item>
@@ -746,31 +732,10 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="label_ENU_X_value">
+           <item row="0" column="3">
+            <widget class="QLabel" name="label_latitude_value">
              <property name="text">
-              <string>0m</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="label_ENU_Y">
-             <property name="text">
-              <string>ENU_Y:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QLabel" name="label_ENU_Y_value">
-             <property name="text">
-              <string>0m</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_yaw">
-             <property name="text">
-              <string>艏向:</string>
+              <string>32.12°</string>
              </property>
             </widget>
            </item>
@@ -788,38 +753,45 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="3">
-            <widget class="QLabel" name="label_throttle_value">
+           <item row="1" column="3">
+            <widget class="QLabel" name="label_ENU_Y_value">
              <property name="text">
-              <string>0m/s</string>
+              <string>0m</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_actuator_yaw">
+           <item row="1" column="2">
+            <widget class="QLabel" name="label_ENU_Y">
              <property name="text">
-              <string>ActuatorYaw:</string>
+              <string>ENU_Y:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QLabel" name="label_actuator_yaw_value">
+           <item row="1" column="1">
+            <widget class="QLabel" name="label_ENU_X_value">
              <property name="text">
-              <string>0.0</string>
+              <string>0m</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="2">
-            <widget class="QLabel" name="label_actuator_throttle">
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_yaw">
              <property name="text">
-              <string>ActuatorThrottle:</string>
+              <string>艏向:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="3">
-            <widget class="QLabel" name="label_actuator_throttle_value">
+           <item row="0" column="2">
+            <widget class="QLabel" name="label_latitude">
              <property name="text">
-              <string>0.0</string>
+              <string>纬度:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_longitude_value">
+             <property name="text">
+              <string>119.36°</string>
              </property>
             </widget>
            </item>
