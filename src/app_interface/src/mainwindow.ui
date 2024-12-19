@@ -135,19 +135,15 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_display">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_map">
           <attribute name="title">
            <string>地图</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <widget class="QLabel" name="label_map">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+            <widget class="QWebEngineView" name="widget_map" native="true"/>
            </item>
           </layout>
          </widget>
@@ -826,6 +822,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header>qwebengineview.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

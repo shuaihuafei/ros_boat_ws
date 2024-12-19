@@ -10,12 +10,17 @@
 #include <QPainter>
 #include <QRadialGradient>
 #include <QTimer>
+#include <QWebEngineView>
+#include <QWebChannel>
+#include <QDir>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/TwistStamped.h>
+
+#include "mapchannel.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,17 +35,23 @@ public:
     ~MainWindow();
 
 private:
+    // Qt相关变量
     Ui::MainWindow *ui;
     QProcess *roscoreProcess;
     QProcess *startDockProcess;
     QProcess *startDockCamProcess;
     QProcess *startDockCamYoloProcess;
     QTimer *timer_spin;
+    QWebChannel *webChannel;
+    MapChannel *mapChannel;
 
+    // 初始化相关
     void init_QProcess();
     void init_GUI();
+    void init_map();
     void init_UpdateSubscriber();
 
+    // 按钮启动相关
     void startBoatCamOrigin();
     void startBoatCamYolo();
     void startDockCam();
@@ -48,6 +59,7 @@ private:
     void startDockCamYolo();
     void startGoDock();
     
+    // 回调函数相关
     void boatCamImageOriginCallback(const sensor_msgs::ImageConstPtr& msg);
     void boatCamImageYoloCallback(const sensor_msgs::ImageConstPtr& msg);
     void dockCamImageOriginCallback(const sensor_msgs::ImageConstPtr& msg);
@@ -56,10 +68,16 @@ private:
     void globalPositionCallback(const sensor_msgs::NavSatFix::ConstPtr& msg);
     void localVelocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg);
 
+    // 通过定时器来调用回旋函数
     void rosSpinOnce();
 
+    // 功能函数相关
     void quaternion_to_euler(const geometry_msgs::Quaternion& q, double& roll, double& pitch, double& yaw);
 
+    // 槽函数相关
+    void reloadMap();
+
+    // ROS相关变量
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Subscriber localPoseSubscriber;
     ros::Subscriber globalPositionSubscriber;

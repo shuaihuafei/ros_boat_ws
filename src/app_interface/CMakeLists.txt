@@ -5,6 +5,15 @@ project(app_interface)
 # add_compile_options(-std=c++11)
 add_compile_options(-std=c++17)
 
+## 找不到cmake文件时，需要明确一下路径
+set(Qt5_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5")
+set(Qt5Core_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5Core")
+set(Qt5Gui_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5Gui")
+set(Qt5Widgets_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5Widgets")
+set(Qt5WebEngineCore_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebEngineCore")
+set(Qt5WebEngineWidgets_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebEngineWidgets")
+set(Qt5WebChannel_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebChannel")
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -17,7 +26,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package(Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets WebEngineCore WebEngineWidgets WebChannel)
 find_package(OpenCV REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
@@ -28,10 +37,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(SOURCES
     src/mainwindow.cpp
     src/boatCtlApp.cpp
+    src/mapchannel.cpp
 )
 
 SET(HEADERS 
     include/mainwindow.h
+    include/mapchannel.h
 )
 
 set(FORMS
@@ -144,6 +155,12 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INLCUDE_DIRS}
+  ${Qt5Core_INCLUDE_DIRS}
+  ${Qt5Gui_INCLUDE_DIRS}
+  ${Qt5Widgets_INCLUDE_DIRS}
+  ${Qt5WebEngineCore_INCLUDE_DIRS}
+  ${Qt5WebEngineWidgets_INCLUDE_DIRS}
+  ${Qt5WebChannel_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -177,7 +194,7 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${FORMS} ${RESOURCES})
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${OpenCV_LIBS})
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::WebEngineCore Qt5::WebEngineWidgets Qt5::WebChannel)
 
 #############
 ## Install ##

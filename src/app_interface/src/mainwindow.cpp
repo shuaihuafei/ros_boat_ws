@@ -46,10 +46,6 @@ void MainWindow::init_GUI()
     ui->label_speed->setPixmap(pixmap_speed);
     ui->label_speed->setScaledContents(true);
 
-    QPixmap pixmap_map(":/images/map.png");
-    ui->label_map->setPixmap(pixmap_map);
-    ui->label_map->setScaledContents(true);
-
     // 获取 QLabel 的宽高
     int width = ui->label_status->width();
     int height = ui->label_status->height();
@@ -92,6 +88,19 @@ void MainWindow::init_GUI()
 
     // 初始化状态显示等订阅者
     init_UpdateSubscriber();
+
+    init_map();
+}
+
+void MainWindow::init_map()
+{
+    webChannel = new QWebChannel(this);
+    mapChannel = new MapChannel(this);
+    webChannel->registerObject("passId",mapChannel);
+    ui->widget_map->page()->setWebChannel(webChannel);
+    QString currentDir = QDir::currentPath();
+    ui->widget_map->load(QUrl::fromLocalFile(currentDir + "/src/app_interface/map/map.html"));
+    connect(mapChannel,&MapChannel::reloadMapClicked,this,&MainWindow::reloadMap);
 }
 
 void MainWindow::init_UpdateSubscriber()
@@ -149,6 +158,11 @@ void MainWindow::startBoatCamYolo()
             }
         }
     });
+}
+
+void MainWindow::reloadMap()
+{
+
 }
 
 // 回调函数：显示 ROS 图像
