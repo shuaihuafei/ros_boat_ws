@@ -2,6 +2,6 @@
     <!-- 启动摄像头发布节点 -->
     <node name="usb_cam_image_publisher" pkg="cv" type="usb_cam.py" output="screen">
         <!-- 设置节点参数，可以根据需要增加 -->
-        <param name="video_device" value="4" />
+        <param name="video_device" value="/dev/usb-cam" />
     </node>
 </launch>
