@@ -4,19 +4,23 @@
 MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , argc_(argc)  // 初始化 argc_
-    , argv_(argv)  // 初始化 argv_
 {
     ui->setupUi(this);
+
+    ros::init(argc, argv, "ControlInterfaceNode");
+    if (!nh_) {
+        nh_ = std::make_shared<ros::NodeHandle>();  // 延迟初始化
+    }
 
     init_QProcess();
     init_GUI();
 
-    startRosCore();
     startDockCam();
     startDockCamOrigin();
     startDockCamYolo();
     startGoDock();
+
+    // ros::spin();
 }
 
 // 主窗口初始化
@@ -69,6 +73,16 @@ void MainWindow::init_GUI()
 
     // 将绘制好的 QPixmap 设置为 QLabel 的内容
     ui->label_status->setPixmap(pixmap_status);
+
+    // 定时器设置，用来定期调用 ros::spinOnce()
+    timer_spin = new QTimer(this);
+    connect(timer_spin, &QTimer::timeout, this, &MainWindow::rosSpinOnce);
+    timer_spin->start(50); // 每50毫秒调用一次 rosSpinOnce
+}
+
+void MainWindow::rosSpinOnce()
+{
+    ros::spinOnce();  // 非阻塞调用 ROS 的回调处理
 }
 
 void MainWindow::init_QProcess()
@@ -77,37 +91,6 @@ void MainWindow::init_QProcess()
     startDockProcess = nullptr;
     startDockCamProcess = nullptr;
     startDockCamYoloProcess = nullptr;
-}
-
-// 当本机为rosmaster时需要启动roscore
-void MainWindow::startRosCore()
-{
-    connect(ui->radioButton_roscore_true, &QRadioButton::toggled, [=](bool toggled_flag) {
-        if (toggled_flag) {
-            // 启动 roscore
-            if (!roscoreProcess) {
-                roscoreProcess = new QProcess(this);  // 创建 QProcess 对象
-            }
-            roscoreProcess->start("roscore");  // 启动 roscore
-            if (!roscoreProcess->waitForStarted()) {  // 检查 roscore 是否启动成功
-                ui->textEdit_qdebug->append("<font color='red'>启动 roscore 失败！</font>");
-            } else {
-                ui->textEdit_qdebug->append("<font color='red'>roscore 已启动</font>");
-                ros::init(argc_, argv_, "ControlInterfaceNode");
-            }
-        } else {
-            // 停止 roscore
-            if (roscoreProcess && roscoreProcess->state() == QProcess::Running) {
-                roscoreProcess->terminate();  // 优雅地停止进程
-                if (!roscoreProcess->waitForFinished(3000)) {  // 等待最多3秒
-                    roscoreProcess->kill();  // 如果进程没有正常退出，强制结束进程
-                    ui->textEdit_qdebug->append("<font color='red'>roscore 被强制终止</font>");
-                } else {
-                    ui->textEdit_qdebug->append("<font color='red'>roscore 已停止</font>");
-                }
-            }
-        }
-    });
 }
 
 void MainWindow::startDockCam()
@@ -166,10 +149,19 @@ void MainWindow::startDockCamOrigin()
     connect(ui->pushButton_cam_dock_origin, &QPushButton::toggled, [=](bool toggled_flag) {
         if (toggled_flag) {
             ui->pushButton_cam_dock_origin->setText("关闭相机原图像");
-            startDockCamOriginImageSubscriber();  // 启动图像订阅
+            // 启动 ROS 订阅
+            if (!dockCamOriginImageSubscriber) {
+                // 订阅 ROS 图像话题
+                dockCamOriginImageSubscriber = nh_->subscribe("/camera_usb/color/image_raw", 1, &MainWindow::dockCamImageCallback, this);
+                ui->textEdit_qdebug->append("<font color='green'>已开始订阅相机原图像话题</font>");
+            }
         } else {
             ui->pushButton_cam_dock_origin->setText("开启相机原图像");
-
+            // 取消订阅 ROS 图像话题
+            if (dockCamOriginImageSubscriber) {
+                dockCamOriginImageSubscriber.shutdown();
+                ui->textEdit_qdebug->append("<font color='red'>已停止订阅相机原图像话题</font>");
+            }
         }
     });
 }
@@ -209,7 +201,6 @@ void MainWindow::startDockCamYolo()
                 ui->textEdit_qdebug->append("<font color='red'>启动 yolo识别图像 失败！</font>");
             } else {
                 ui->textEdit_qdebug->append("<font color='green'>yolo识别图像 启动成功！</font>");
-                startDockCamYoloImageSubscriber();  // 启动图像订阅
             }
         } else {
             ui->pushButton_cam_dock_yolo->setText("开启yolo识别图像");
@@ -226,39 +217,15 @@ void MainWindow::startDockCamYolo()
     });
 }
 
-// 启动 ROS 图像订阅
-void MainWindow::startDockCamOriginImageSubscriber()
-{
-    // 初始化 ROS 节点（假设已经在其他地方初始化过 ROS）
-    ros::NodeHandle nh;
-    
-    // 订阅 ROS 图像话题
-    ros::Subscriber dockCamOriginImageSubscriber = nh.subscribe("/camera_usb/color/image_raw", 1, &MainWindow::dockCamImageCallback, this);
-
-    ros::spin();
-}
-
-// 启动 ROS 图像订阅
-void MainWindow::startDockCamYoloImageSubscriber()
-{
-    // 初始化 ROS 节点（假设已经在其他地方初始化过 ROS）
-    ros::NodeHandle nh;
-    
-    // 订阅 ROS 图像话题
-    ros::Subscriber dockCamYoloImageSubscriber = nh.subscribe("/yolo/predict_boat", 1, &MainWindow::dockCamImageCallback, this);
-
-    ros::spin();
-}
-
-// 订阅 ROS 图像话题的回调函数
+// 回调函数：显示 ROS 图像
 void MainWindow::dockCamImageCallback(const sensor_msgs::ImageConstPtr& msg)
 {
     try {
         // 使用 cv_bridge 将 ROS 图像转换为 OpenCV 图像
-        cv_bridge::CvImagePtr cvImagePtr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+        cv_bridge::CvImagePtr cvImagePtr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::RGB8);
 
         // 转换为 QImage
-        QImage img = QImage(cvImagePtr->image.data, cvImagePtr->image.cols, cvImagePtr->image.rows, 
+        QImage img = QImage(cvImagePtr->image.data, cvImagePtr->image.cols, cvImagePtr->image.rows,
                             cvImagePtr->image.step, QImage::Format_RGB888);
 
         // 将 QImage 转换为 QPixmap，并更新 QLabel 显示

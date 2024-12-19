@@ -9,6 +9,7 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QRadialGradient>
+#include <QTimer>
 #include <sensor_msgs/Image.h>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
@@ -31,21 +32,22 @@ private:
     QProcess *startDockProcess;
     QProcess *startDockCamProcess;
     QProcess *startDockCamYoloProcess;
+    QTimer *timer_spin;
 
-    void init_GUI();
     void init_QProcess();
+    void init_GUI();
 
-    void startRosCore();
     void startDockCam();
     void startDockCamOrigin();
     void startDockCamYolo();
-    void startDockCamYoloImageSubscriber();
-    void startDockCamOriginImageSubscriber();
     void dockCamImageCallback(const sensor_msgs::ImageConstPtr& msg);
     void startGoDock();
 
-    int argc_;
-    char** argv_;
+    void rosSpinOnce();
+
+    std::shared_ptr<ros::NodeHandle> nh_;
+    ros::Subscriber dockCamOriginImageSubscriber;
+    ros::Subscriber dockCamYoloImageSubscriber;
 };
 
 #endif // MAINWINDOW_H
