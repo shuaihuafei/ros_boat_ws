@@ -58,10 +58,8 @@ def image_callback(ros_image):
         image_height, image_width = cv_image.shape[:2]
         cx = image_width / 2  # Image center x
 
-        # Run YOLO prediction on the image, classes=[1]表示第二个分类也就是boat
-        results = model.predict(
-            source=cv_image, show=False, classes=[1]
-        )  # Detect class 0
+        # Run YOLO prediction on the image, classes=[1]表示第二个分类也就是boat, verbose=False表示禁用打印信息
+        results = model.predict(source=cv_image, show=False, classes=[1], verbose=False)
 
         # Loop through the results
         for result in results:

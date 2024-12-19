@@ -15,12 +15,20 @@ MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     init_QProcess();
     init_GUI();
 
+    startBoatCamOrigin();
+    startBoatCamYolo();
     startDockCam();
     startDockCamOrigin();
     startDockCamYolo();
     startGoDock();
+}
 
-    // ros::spin();
+void MainWindow::init_QProcess()
+{
+    roscoreProcess = nullptr;
+    startDockProcess = nullptr;
+    startDockCamProcess = nullptr;
+    startDockCamYoloProcess = nullptr;
 }
 
 // 主窗口初始化
@@ -74,6 +82,9 @@ void MainWindow::init_GUI()
     // 将绘制好的 QPixmap 设置为 QLabel 的内容
     ui->label_status->setPixmap(pixmap_status);
 
+    // 设置textEdit的最大显示行
+    ui->textEdit_qdebug->document()->setMaximumBlockCount(100);
+
     // 定时器设置，用来定期调用 ros::spinOnce()
     timer_spin = new QTimer(this);
     connect(timer_spin, &QTimer::timeout, this, &MainWindow::rosSpinOnce);
@@ -85,12 +96,90 @@ void MainWindow::rosSpinOnce()
     ros::spinOnce();  // 非阻塞调用 ROS 的回调处理
 }
 
-void MainWindow::init_QProcess()
+void MainWindow::startBoatCamOrigin()
 {
-    roscoreProcess = nullptr;
-    startDockProcess = nullptr;
-    startDockCamProcess = nullptr;
-    startDockCamYoloProcess = nullptr;
+    connect(ui->pushButton_cam_boat_origin, &QPushButton::toggled, [=](bool toggled_flag) {
+        if (toggled_flag) {
+            ui->pushButton_cam_boat_origin->setText("关闭相机原图像");
+            // 启动 ROS 订阅
+            if (!boatCamOriginImageSubscriber) {
+                // 订阅 ROS 图像话题
+                boatCamOriginImageSubscriber = nh_->subscribe("/camera/color/image_raw", 1, &MainWindow::boatCamImageOriginCallback, this);
+                ui->textEdit_qdebug->append("<font color='green'>已开始订阅相机原图像话题</font>");
+            }
+        } else {
+            ui->pushButton_cam_boat_origin->setText("开启相机原图像");
+            // 取消订阅 ROS 图像话题
+            if (boatCamOriginImageSubscriber) {
+                boatCamOriginImageSubscriber.shutdown();
+                ui->textEdit_qdebug->append("<font color='red'>已停止订阅相机原图像话题</font>");
+            }
+        }
+    });
+}
+
+void MainWindow::startBoatCamYolo()
+{
+    connect(ui->pushButton_cam_boat_yolo, &QPushButton::toggled, [=](bool toggled_flag) {
+        if (toggled_flag) {
+            ui->pushButton_cam_boat_yolo->setText("关闭yolo识别图像");
+            // 启动 ROS 订阅
+            if (!boatCamYoloImageSubscriber) {
+                // 订阅 ROS 图像话题
+                boatCamYoloImageSubscriber = nh_->subscribe("/yolo/predict_dock", 1, &MainWindow::boatCamImageYoloCallback, this);
+                ui->textEdit_qdebug->append("<font color='green'>已开始订阅相机原图像话题</font>");
+            }
+        } else {
+            ui->pushButton_cam_boat_yolo->setText("开启yolo识别图像");
+            // 取消订阅 ROS 图像话题
+            if (boatCamYoloImageSubscriber) {
+                boatCamYoloImageSubscriber.shutdown();
+                ui->textEdit_qdebug->append("<font color='red'>已停止订阅相机原图像话题</font>");
+            }
+        }
+    });
+}
+
+// 回调函数：显示 ROS 图像
+void MainWindow::boatCamImageOriginCallback(const sensor_msgs::ImageConstPtr& msg)
+{
+    try {
+        // 使用 cv_bridge 将 ROS 图像转换为 OpenCV 图像
+        cv_bridge::CvImagePtr cvImagePtr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::RGB8);
+
+        // 转换为 QImage
+        QImage img = QImage(cvImagePtr->image.data, cvImagePtr->image.cols, cvImagePtr->image.rows,
+                            cvImagePtr->image.step, QImage::Format_RGB888);
+
+        // 将 QImage 转换为 QPixmap，并更新 QLabel 显示
+        QPixmap pixmap = QPixmap::fromImage(img);
+        ui->label_cam_boat_origin->setPixmap(pixmap.scaled(ui->label_cam_boat_origin->size(), Qt::KeepAspectRatio));
+        ui->label_cam_boat_origin->setAlignment(Qt::AlignCenter);
+    }
+    catch (cv_bridge::Exception& e) {
+        qDebug() << "cv_bridge exception: " << e.what();
+    }
+}
+
+// 回调函数：显示 ROS 图像
+void MainWindow::boatCamImageYoloCallback(const sensor_msgs::ImageConstPtr& msg)
+{
+    try {
+        // 使用 cv_bridge 将 ROS 图像转换为 OpenCV 图像
+        cv_bridge::CvImagePtr cvImagePtr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::RGB8);
+
+        // 转换为 QImage
+        QImage img = QImage(cvImagePtr->image.data, cvImagePtr->image.cols, cvImagePtr->image.rows,
+                            cvImagePtr->image.step, QImage::Format_RGB888);
+
+        // 将 QImage 转换为 QPixmap，并更新 QLabel 显示
+        QPixmap pixmap = QPixmap::fromImage(img);
+        ui->label_cam_boat_yolo->setPixmap(pixmap.scaled(ui->label_cam_boat_yolo->size(), Qt::KeepAspectRatio));
+        ui->label_cam_boat_yolo->setAlignment(Qt::AlignCenter);
+    }
+    catch (cv_bridge::Exception& e) {
+        qDebug() << "cv_bridge exception: " << e.what();
+    }
 }
 
 void MainWindow::startDockCam()
@@ -100,9 +189,12 @@ void MainWindow::startDockCam()
             ui->pushButton_start_cam_dock->setText("关闭坞舱摄像头");
             // 启动 ROS 节点 (roslaunch)
             startDockCamProcess = new QProcess(this);  // 创建 QProcess 对象
-            QString command = "roslaunch";
+            // 使用 bash 启动进程
+            QString command = "bash";
             QStringList arguments;
-            arguments << "cv" << "usb_cam.launch";  // roslaunch 命令和参数
+            // 激活 conda 环境并启动 roslaunch
+            QString activateEnv = "source ~/miniconda3/bin/activate yolov11 && roslaunch cv usb_cam.launch";
+            arguments << "-c" << activateEnv; // 使用 -c 来传递命令
             startDockCamProcess->start(command, arguments);  // 启动 roslaunch
 
             // 捕获标准输出并显示到 textEdit_qdebug
@@ -152,7 +244,7 @@ void MainWindow::startDockCamOrigin()
             // 启动 ROS 订阅
             if (!dockCamOriginImageSubscriber) {
                 // 订阅 ROS 图像话题
-                dockCamOriginImageSubscriber = nh_->subscribe("/camera_usb/color/image_raw", 1, &MainWindow::dockCamImageCallback, this);
+                dockCamOriginImageSubscriber = nh_->subscribe("/camera_usb/color/image_raw", 1, &MainWindow::dockCamImageOriginCallback, this);
                 ui->textEdit_qdebug->append("<font color='green'>已开始订阅相机原图像话题</font>");
             }
         } else {
@@ -173,17 +265,20 @@ void MainWindow::startDockCamYolo()
             ui->pushButton_cam_dock_yolo->setText("关闭yolo识别图像");
             // 启动 ROS 节点 (roslaunch)
             startDockCamYoloProcess = new QProcess(this);  // 创建 QProcess 对象
-            QString command = "roslaunch";
+            // 使用 bash 启动进程
+            QString command = "bash";
             QStringList arguments;
-            arguments << "cv" << "02boat_angle.launch";  // roslaunch 命令和参数
-            startDockCamYoloProcess->start(command, arguments);  // 启动 roslaunch
+            // 激活 conda 环境并启动 roslaunch
+            QString activateEnv = "source ~/miniconda3/bin/activate yolov11 && roslaunch cv 02boat_angle.launch";
+            arguments << "-c" << activateEnv; // 使用 -c 来传递命令
+            startDockCamYoloProcess->start(command, arguments);
 
             // 捕获标准输出并显示到 textEdit_qdebug
             connect(startDockCamYoloProcess, &QProcess::readyReadStandardOutput, [=]() {
                 QString output = startDockCamYoloProcess->readAllStandardOutput();
                 // 去除终端控制字符（颜色编码等）
                 output.remove(QRegExp("\\x1B\\[[0-9;]*[mK]"));
-                QString coloredOutput = "<font color='green'>" + output + "</font>";
+                QString coloredOutput = "<font color='black'>" + output + "</font>";
                 ui->textEdit_qdebug->append(coloredOutput);  // 将输出追加到 textEdit_qdebug
             });
 
@@ -201,9 +296,20 @@ void MainWindow::startDockCamYolo()
                 ui->textEdit_qdebug->append("<font color='red'>启动 yolo识别图像 失败！</font>");
             } else {
                 ui->textEdit_qdebug->append("<font color='green'>yolo识别图像 启动成功！</font>");
+                // 启动 ROS 订阅
+                if (!dockCamYoloImageSubscriber) {
+                    // 订阅 ROS 图像话题
+                    dockCamYoloImageSubscriber = nh_->subscribe("/yolo/predict_boat", 1, &MainWindow::dockCamImageYoloCallback, this);
+                    ui->textEdit_qdebug->append("<font color='green'>已开始订阅相机原图像话题</font>");
+                }
             }
         } else {
             ui->pushButton_cam_dock_yolo->setText("开启yolo识别图像");
+            // 取消订阅 ROS 图像话题
+            if (dockCamYoloImageSubscriber) {
+                dockCamYoloImageSubscriber.shutdown();
+                ui->textEdit_qdebug->append("<font color='red'>已停止订阅相机原图像话题</font>");
+            }
             if (startDockCamYoloProcess && startDockCamYoloProcess->state() == QProcess::Running) {
                 startDockCamYoloProcess->terminate();  // 优雅地停止进程
                 if (!startDockCamYoloProcess->waitForFinished(3000)) {  // 等待最多3秒
@@ -218,7 +324,7 @@ void MainWindow::startDockCamYolo()
 }
 
 // 回调函数：显示 ROS 图像
-void MainWindow::dockCamImageCallback(const sensor_msgs::ImageConstPtr& msg)
+void MainWindow::dockCamImageOriginCallback(const sensor_msgs::ImageConstPtr& msg)
 {
     try {
         // 使用 cv_bridge 将 ROS 图像转换为 OpenCV 图像
@@ -230,7 +336,29 @@ void MainWindow::dockCamImageCallback(const sensor_msgs::ImageConstPtr& msg)
 
         // 将 QImage 转换为 QPixmap，并更新 QLabel 显示
         QPixmap pixmap = QPixmap::fromImage(img);
-        ui->label_cam_dock->setPixmap(pixmap.scaled(ui->label_cam_dock->size(), Qt::KeepAspectRatio));
+        ui->label_cam_dock_origin->setPixmap(pixmap.scaled(ui->label_cam_dock_origin->size(), Qt::KeepAspectRatio));
+        ui->label_cam_dock_origin->setAlignment(Qt::AlignCenter);
+    }
+    catch (cv_bridge::Exception& e) {
+        qDebug() << "cv_bridge exception: " << e.what();
+    }
+}
+
+// 回调函数：显示 ROS 图像
+void MainWindow::dockCamImageYoloCallback(const sensor_msgs::ImageConstPtr& msg)
+{
+    try {
+        // 使用 cv_bridge 将 ROS 图像转换为 OpenCV 图像
+        cv_bridge::CvImagePtr cvImagePtr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::RGB8);
+
+        // 转换为 QImage
+        QImage img = QImage(cvImagePtr->image.data, cvImagePtr->image.cols, cvImagePtr->image.rows,
+                            cvImagePtr->image.step, QImage::Format_RGB888);
+
+        // 将 QImage 转换为 QPixmap，并更新 QLabel 显示
+        QPixmap pixmap = QPixmap::fromImage(img);
+        ui->label_cam_dock_yolo->setPixmap(pixmap.scaled(ui->label_cam_dock_yolo->size(), Qt::KeepAspectRatio));
+        ui->label_cam_dock_yolo->setAlignment(Qt::AlignCenter);
     }
     catch (cv_bridge::Exception& e) {
         qDebug() << "cv_bridge exception: " << e.what();

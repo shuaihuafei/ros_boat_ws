@@ -135,7 +135,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_display">
          <property name="currentIndex">
-          <number>2</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_map">
           <attribute name="title">
@@ -155,8 +155,8 @@
           <attribute name="title">
            <string>无人艇摄像头</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="0" column="0" colspan="2">
             <widget class="QWidget" name="widget" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -181,7 +181,10 @@
               <item>
                <widget class="QPushButton" name="pushButton_cam_boat_origin">
                 <property name="text">
-                 <string>相机原图像</string>
+                 <string>开启相机原图像</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -201,7 +204,10 @@
               <item>
                <widget class="QPushButton" name="pushButton_cam_boat_yolo">
                 <property name="text">
-                 <string>yolo识别图像</string>
+                 <string>开启yolo识别图像</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -221,8 +227,15 @@
              </layout>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="label_cam_boat">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_cam_boat_origin">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="label_cam_boat_yolo">
              <property name="text">
               <string/>
              </property>
@@ -234,8 +247,8 @@
           <attribute name="title">
            <string>坞舱摄像头</string>
           </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="0" colspan="2">
             <widget class="QWidget" name="widget_3" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -285,6 +298,9 @@
                 <property name="text">
                  <string>开启yolo识别图像</string>
                 </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
               <item>
@@ -303,8 +319,15 @@
              </layout>
             </widget>
            </item>
-           <item>
-            <widget class="QLabel" name="label_cam_dock">
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_cam_dock_origin">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="label_cam_dock_yolo">
              <property name="text">
               <string/>
              </property>
@@ -833,7 +856,4 @@
  </widget>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>

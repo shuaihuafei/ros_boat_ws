@@ -37,15 +37,23 @@ private:
     void init_QProcess();
     void init_GUI();
 
+    void startBoatCamOrigin();
+    void startBoatCamYolo();
     void startDockCam();
     void startDockCamOrigin();
     void startDockCamYolo();
-    void dockCamImageCallback(const sensor_msgs::ImageConstPtr& msg);
     void startGoDock();
+    
+    void boatCamImageOriginCallback(const sensor_msgs::ImageConstPtr& msg);
+    void boatCamImageYoloCallback(const sensor_msgs::ImageConstPtr& msg);
+    void dockCamImageOriginCallback(const sensor_msgs::ImageConstPtr& msg);
+    void dockCamImageYoloCallback(const sensor_msgs::ImageConstPtr& msg);
 
     void rosSpinOnce();
 
     std::shared_ptr<ros::NodeHandle> nh_;
+    ros::Subscriber boatCamOriginImageSubscriber;
+    ros::Subscriber boatCamYoloImageSubscriber;
     ros::Subscriber dockCamOriginImageSubscriber;
     ros::Subscriber dockCamYoloImageSubscriber;
 };
