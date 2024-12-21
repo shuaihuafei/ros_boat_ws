@@ -5,7 +5,7 @@ logs/
 .vscode/
 .qtc_clangd/
 .catkin_workspace
+/*.html
 *.csv
-*.html
 *.workspace.user
 **/tiles/
