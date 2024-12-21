@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     }
 
     init_QProcess();
+    init_Variable();
     init_GUI();
 
     startBoatCamOrigin();
@@ -29,6 +30,11 @@ void MainWindow::init_QProcess()
     startDockProcess = nullptr;
     startDockCamProcess = nullptr;
     startDockCamYoloProcess = nullptr;
+}
+
+void MainWindow::init_Variable()
+{
+    yaw_deg = 0.0;
 }
 
 // 主窗口初始化
@@ -99,8 +105,15 @@ void MainWindow::init_map()
     webChannel->registerObject("passId",mapChannel);
     ui->widget_map->page()->setWebChannel(webChannel);
     QString currentDir = QDir::currentPath();
-    ui->widget_map->load(QUrl::fromLocalFile(currentDir + "/src/app_interface/map/map.html"));
+    ui->widget_map->load(QUrl::fromLocalFile(currentDir + "/src/app_interface/map/OfflineMap/map.html"));
     connect(mapChannel,&MapChannel::reloadMapClicked,this,&MainWindow::reloadMap);
+
+    // 将实际的经纬度信息发给地图显示
+    connect(this, &MainWindow::updateBoatPosition, mapChannel, &MapChannel::updateBoatPos);
+    // 将地图上的航点发回来
+    connect(mapChannel,&MapChannel::pointsCome,[](int index, double lng, double lat){
+        qDebug()<<index<<QString::number(lng,'f',6)<<QString::number(lat,'f',6);
+    });
 }
 
 void MainWindow::init_UpdateSubscriber()
@@ -420,7 +433,7 @@ void MainWindow::localPoseCallback(const geometry_msgs::PoseStamped::ConstPtr& m
     double roll, pitch, yaw;
     quaternion_to_euler(orientation, roll, pitch, yaw);
 
-    double yaw_deg = yaw * 180.0 / M_PI;
+    yaw_deg = yaw * 180.0 / M_PI;
 
     ui->label_ENU_X_value->setText(QString::number(position.x, 'f', 2) + "m");
     ui->label_ENU_Y_value->setText(QString::number(position.y, 'f', 2) + "m");
@@ -432,8 +445,12 @@ void MainWindow::globalPositionCallback(const sensor_msgs::NavSatFix::ConstPtr& 
     double latitude = msg->latitude;    // 获取纬度
     double longitude = msg->longitude;  // 获取经度
 
-    ui->label_latitude_value->setText(QString::number(latitude, 'f', 3) + "°");
-    ui->label_longitude_value->setText(QString::number(longitude, 'f', 3) + "°");
+    ui->label_latitude_value->setText(QString::number(latitude, 'f', 6) + "°");
+    ui->label_longitude_value->setText(QString::number(longitude, 'f', 6) + "°");
+
+    double course = 90 - yaw_deg;
+
+    emit updateBoatPosition(longitude, latitude, course);
 }
 
 void MainWindow::localVelocityCallback(const geometry_msgs::TwistStamped::ConstPtr& msg)

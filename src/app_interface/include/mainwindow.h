@@ -47,6 +47,7 @@ private:
 
     // 初始化相关
     void init_QProcess();
+    void init_Variable();
     void init_GUI();
     void init_map();
     void init_UpdateSubscriber();
@@ -86,6 +87,12 @@ private:
     ros::Subscriber boatCamYoloImageSubscriber;
     ros::Subscriber dockCamOriginImageSubscriber;
     ros::Subscriber dockCamYoloImageSubscriber;
+
+    // 作为类中的变量传递使用
+    double yaw_deg;
+
+signals:
+    void updateBoatPosition(double lng, double lat, double course);
 };
 
 #endif // MAINWINDOW_H

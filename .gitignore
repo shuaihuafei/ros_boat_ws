@@ -8,3 +8,4 @@ logs/
 *.csv
 *.html
 *.workspace.user
+**/tiles/
