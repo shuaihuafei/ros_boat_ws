@@ -1,9 +1,15 @@
-#include <ros/ros.h>
 #include <QApplication>
 #include <mainwindow.h>
+#include <QMutex>
+#include <QFile>
+#include <QTextStream>
+#include <QDateTime>
 
-void MyMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void LogMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
+    static QMutex mutex;
+    mutex.lock();
+
     QString logText;
     // 选择日志级别，并构造日志文本
     switch (type) {
@@ -26,17 +32,19 @@ void MyMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         break;
     }
     // 写入日志文件
-    QFile logFile("./debug.txt");
+    QFile logFile("./logs/debug.txt");
     logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
     QTextStream textStream(&logFile);
     textStream << logText << endl;
     logFile.close();
+
+    mutex.unlock();
 };
 
 int main(int argc, char **argv)
 {
     QApplication a(argc, argv);
-    qInstallMessageHandler(MyMessageOutput);
+    qInstallMessageHandler(LogMessageOutput);
     MainWindow w(nullptr,argc,argv);
     w.show();
 
