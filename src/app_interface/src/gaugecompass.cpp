@@ -262,45 +262,39 @@ void GaugeCompass::drawValue(QPainter *painter)
 
 void GaugeCompass::updateValue()
 {
-    qDebug() << "0Value: " << value;
+    //顺时针旋转
     if (!reverse) {
-        qDebug() << "1value + animationStep: "  << value + animationStep << "1value - animationStep: " << " "  << value - animationStep;
+        //当当前值在目标步长范围内时，说明到达目标值
         if (currentValue <= (value + animationStep) && currentValue > (value - animationStep)) {
             currentValue = value;
-            qDebug() << "1currentValue: " << currentValue;
             pre_currentValue = currentValue;
             timer->stop();
         } else {
+            //通过设定一个预当前值来先判断一下是否处于0和359.9的临界点
             pre_currentValue += animationStep;
-            qDebug() << "1pre_currentValue: " << pre_currentValue;
             if (pre_currentValue >= 360)
             {
                 currentValue = pre_currentValue - 360;
-                qDebug() << "2currentValue: " << currentValue;
                 pre_currentValue = currentValue;
             } else {
                 currentValue = pre_currentValue;
-                qDebug() << "2currentValue: " << currentValue;
             }
         }
-    } else {
-        qDebug() << "2value + animationStep: "  << value + animationStep << "2value - animationStep: " << " "  << value - animationStep;
+    } else { //逆时针旋转
+        //当当前值在目标步长范围内时，说明到达目标值
         if (currentValue < (value + animationStep) && currentValue >= (value - animationStep)) {
             currentValue = value;
-            qDebug() << "2currentValue: " << currentValue;
             pre_currentValue = currentValue;
             timer->stop();
         } else {
+            //通过设定一个预当前值来先判断一下是否处于0和359.9的临界点
             pre_currentValue -= animationStep;
-            qDebug() << "2pre_currentValue: " << pre_currentValue;
             if (pre_currentValue < 0)
             {
                 currentValue = pre_currentValue + 360;
-                qDebug() << "2currentValue: " << currentValue;
                 pre_currentValue = currentValue;
             } else {
                 currentValue = pre_currentValue;
-                qDebug() << "2currentValue: " << currentValue;
             }
         }
     }
@@ -337,6 +331,7 @@ void GaugeCompass::setValue(double value)
         value = 0;
     }
 
+    //对当前值是否大于180，分情况讨论
     if (currentValue < 180) {
         if ((value < currentValue) || (value > (currentValue + 180))) {
             reverse = true;
