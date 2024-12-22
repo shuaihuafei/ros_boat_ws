@@ -44,50 +44,6 @@ void MainWindow::init_GUI()
     ui->label_log->setPixmap(pixmap_logo);
     ui->label_log->setScaledContents(true);
 
-    {
-        // compassWidget = new CompassWidget(this);
-        // compassWidget->setGeometry(ui->widget_attitude->rect());
-        // compassWidget->setParent(ui->widget_attitude);
-        // compassWidget->show();
-        connect(ui->pushButton_update_test, &QPushButton::clicked, [=](){
-            ui->widget_attitude->setProperty("value", ui->lineEdit_update_test->text());
-        });
-    }
-
-    {
-        // speedWidget = new SpeedWidget(this);
-        // ui->widget_speed->setLayout(new QVBoxLayout());
-        // ui->widget_speed->layout()->addWidget(speedWidget);
-        // speedWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    }
-
-    {   
-        // 获取 QLabel 的宽高
-        int width = ui->label_status->width();
-        int height = ui->label_status->height();
-        // 创建一个与 QLabel 同大小的 QPixmap
-        QPixmap pixmap_status(width, height);
-        pixmap_status.fill(Qt::transparent); // 填充透明背景
-        // 使用 QPainter 绘制绿色圆
-        QPainter painter(&pixmap_status);
-        painter.setRenderHint(QPainter::Antialiasing); // 抗锯齿
-        // 设置渐变
-        QRadialGradient gradient(QPointF(width / 2, height / 2), std::min(width, height) / 2);
-        gradient.setColorAt(0.0, QColor(60, 179, 113));
-        gradient.setColorAt(1.0, QColor(34, 139, 34, 0));
-        // 应用渐变画刷
-        painter.setBrush(QBrush(gradient)); // 设置填充为绿色
-        painter.setPen(Qt::NoPen);   // 无边框
-        // 计算圆心和半径
-        int radius = std::min(width, height) / 2; // 圆的半径为 QLabel 边长的 1/4
-        int centerX = width / 2;
-        int centerY = height / 2;
-        // 在 QLabel 中心绘制圆
-        painter.drawEllipse(centerX - radius, centerY - radius, 2 * radius, 2 * radius);
-        // 将绘制好的 QPixmap 设置为 QLabel 的内容
-        ui->label_status->setPixmap(pixmap_status);
-    }
-
     // 设置textEdit的最大显示行
     ui->textEdit_qdebug->document()->setMaximumBlockCount(100);
 
@@ -110,7 +66,7 @@ void MainWindow::init_map()
     ui->widget_map->page()->setWebChannel(webChannel);
     QString currentDir = QDir::currentPath();
     ui->widget_map->load(QUrl::fromLocalFile(currentDir + "/src/app_interface/map/OfflineMap/map.html"));
-    connect(mapChannel,&MapChannel::reloadMapClicked,this,&MainWindow::reloadMap);
+    // connect(mapChannel,&MapChannel::reloadMapClicked,this,&MainWindow::reloadMap);
 
     // 将实际的经纬度信息发给地图显示
     connect(this, &MainWindow::updateBoatPosition, mapChannel, &MapChannel::updateBoatPos);
@@ -175,11 +131,6 @@ void MainWindow::startBoatCamYolo()
             }
         }
     });
-}
-
-void MainWindow::reloadMap()
-{
-
 }
 
 // 回调函数：显示 ROS 图像

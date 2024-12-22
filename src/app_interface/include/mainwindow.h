@@ -79,9 +79,6 @@ private:
     // 功能函数相关
     void quaternion_to_euler(const geometry_msgs::Quaternion& q, double& roll, double& pitch, double& yaw);
 
-    // 槽函数相关
-    void reloadMap();
-
     // ROS相关变量
     std::shared_ptr<ros::NodeHandle> nh_;
     ros::Subscriber localPoseSubscriber;
