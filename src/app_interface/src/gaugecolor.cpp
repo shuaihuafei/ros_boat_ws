@@ -9,7 +9,7 @@
 GaugeColor::GaugeColor(QWidget *parent) : QWidget(parent)
 {
     minValue = 0;
-    maxValue = 100;
+    maxValue = 50;
     value = 0;
     precision = 0;
 
