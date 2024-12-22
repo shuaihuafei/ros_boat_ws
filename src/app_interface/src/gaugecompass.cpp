@@ -34,7 +34,7 @@ GaugeCompass::GaugeCompass(QWidget *parent) : QWidget(parent)
     reverse = false;
     currentValue = 0;
     timer = new QTimer(this);
-    timer->setInterval(20);
+    timer->setInterval(2);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateValue()));
 
     QFont font;
