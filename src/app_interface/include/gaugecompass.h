@@ -91,6 +91,7 @@ private:
 
     bool reverse;               //是否倒退
     double currentValue;        //当前值
+    double pre_currentValue;    //预当前值
     QTimer *timer;              //定时器绘制动画
 
 private slots:

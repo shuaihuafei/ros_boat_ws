@@ -49,6 +49,9 @@ void MainWindow::init_GUI()
         // compassWidget->setGeometry(ui->widget_attitude->rect());
         // compassWidget->setParent(ui->widget_attitude);
         // compassWidget->show();
+        connect(ui->pushButton_update_test, &QPushButton::clicked, [=](){
+            ui->widget_attitude->setProperty("value", ui->lineEdit_update_test->text());
+        });
     }
 
     {

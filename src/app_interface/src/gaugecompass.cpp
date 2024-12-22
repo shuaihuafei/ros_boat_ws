@@ -10,7 +10,7 @@ GaugeCompass::GaugeCompass(QWidget *parent) : QWidget(parent)
 {
     value = 0;
     animation = true;
-    animationStep = 0.5;
+    animationStep = 1;
     precision = 0;
 
     crownColorStart = QColor(125, 32, 36);
@@ -33,6 +33,7 @@ GaugeCompass::GaugeCompass(QWidget *parent) : QWidget(parent)
 
     reverse = false;
     currentValue = 0;
+    pre_currentValue = 0;
     timer = new QTimer(this);
     timer->setInterval(2);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateValue()));
@@ -261,19 +262,44 @@ void GaugeCompass::drawValue(QPainter *painter)
 
 void GaugeCompass::updateValue()
 {
+    qDebug() << "0Value: " << value;
     if (!reverse) {
-        if (currentValue >= value) {
+        qDebug() << "1value + animationStep: "  << value + animationStep << "1value - animationStep: " << " "  << value - animationStep;
+        if (pre_currentValue <= (value + animationStep) && pre_currentValue > (value - animationStep)) {
             currentValue = value;
+            qDebug() << "1currentValue: " << currentValue;
+            pre_currentValue = currentValue;
             timer->stop();
         } else {
-            currentValue += animationStep;
+            pre_currentValue += animationStep;
+            qDebug() << "1pre_currentValue: " << pre_currentValue;
+            if (pre_currentValue >= 360)
+            {
+                currentValue = pre_currentValue - 360;
+                qDebug() << "1pre_currentValue - 360: " << currentValue;
+                pre_currentValue = currentValue;
+            }
+            else
+                currentValue = pre_currentValue;
         }
     } else {
-        if (currentValue <= value) {
+        qDebug() << "2value + animationStep: "  << value + animationStep << "2value - animationStep: " << " "  << value - animationStep;
+        if (pre_currentValue < (value + animationStep) && pre_currentValue >= (value - animationStep)) {
             currentValue = value;
+            qDebug() << "2currentValue: " << currentValue;
+            pre_currentValue = currentValue;
             timer->stop();
         } else {
-            currentValue -= animationStep;
+            pre_currentValue -= animationStep;
+            qDebug() << "2pre_currentValue: " << pre_currentValue;
+            if (pre_currentValue < 0)
+            {
+                currentValue = pre_currentValue + 360;
+                qDebug() << "2pre_currentValue + 360: " << currentValue;
+                pre_currentValue = currentValue;
+            }
+            else
+                currentValue = pre_currentValue;
         }
     }
 
@@ -305,14 +331,22 @@ void GaugeCompass::setValue(double value)
     //值小于最小值则取最小值,大于最大值则取最大值
     if (value < 0) {
         value = 0;
-    } else if (value > 360) {
-        value = 360;
+    } else if (value >= 360) {
+        value = 0;
     }
 
-    if (value > this->value) {
-        reverse = false;
-    } else if (value < this->value) {
-        reverse = true;
+    if (currentValue < 180) {
+        if ((value < currentValue) || (value > (currentValue + 180))) {
+            reverse = true;
+        } else {
+            reverse = false;
+        }
+    } else {
+        if ((value > currentValue) || (value < (currentValue - 180))) {
+            reverse = false;
+        } else {
+            reverse = true;
+        }
     }
 
     this->value = value;
