@@ -262,7 +262,7 @@ void GaugeCompass::drawValue(QPainter *painter)
 
 void GaugeCompass::updateValue()
 {
-    qDebug() << "0DesValue: " << value;
+    qDebug() << "0Value: " << value;
     if (!reverse) {
         qDebug() << "1value + animationStep: "  << value + animationStep << "1value - animationStep: " << " "  << value - animationStep;
         if (currentValue <= (value + animationStep) && currentValue > (value - animationStep)) {
@@ -278,10 +278,10 @@ void GaugeCompass::updateValue()
                 currentValue = pre_currentValue - 360;
                 qDebug() << "2currentValue: " << currentValue;
                 pre_currentValue = currentValue;
-            }
-            else
+            } else {
                 currentValue = pre_currentValue;
                 qDebug() << "2currentValue: " << currentValue;
+            }
         }
     } else {
         qDebug() << "2value + animationStep: "  << value + animationStep << "2value - animationStep: " << " "  << value - animationStep;
@@ -298,10 +298,10 @@ void GaugeCompass::updateValue()
                 currentValue = pre_currentValue + 360;
                 qDebug() << "2currentValue: " << currentValue;
                 pre_currentValue = currentValue;
-            }
-            else
+            } else {
                 currentValue = pre_currentValue;
                 qDebug() << "2currentValue: " << currentValue;
+            }
         }
     }
 
