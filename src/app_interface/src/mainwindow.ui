@@ -337,55 +337,52 @@
         <widget class="QWidget" name="widget_7" native="true">
          <property name="minimumSize">
           <size>
-           <width>300</width>
+           <width>0</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>300</width>
+           <width>16777215</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="layoutDirection">
           <enum>Qt::LayoutDirection::LeftToRight</enum>
          </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_attitude">
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="GaugeCompass" name="widget_attitude" native="true">
             <property name="minimumSize">
              <size>
-              <width>260</width>
-              <height>260</height>
+              <width>350</width>
+              <height>350</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>260</width>
-              <height>260</height>
+              <width>350</width>
+              <height>350</height>
              </size>
-            </property>
-            <property name="text">
-             <string/>
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_speed">
+          <item>
+           <widget class="GaugeColor" name="widget_speed" native="true">
             <property name="minimumSize">
              <size>
-              <width>260</width>
-              <height>260</height>
+              <width>350</width>
+              <height>350</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>260</width>
-              <height>260</height>
+              <width>350</width>
+              <height>350</height>
              </size>
-            </property>
-            <property name="text">
-             <string/>
             </property>
            </widget>
           </item>
@@ -827,6 +824,18 @@
    <class>QWebEngineView</class>
    <extends>QWidget</extends>
    <header>qwebengineview.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GaugeColor</class>
+   <extends>QWidget</extends>
+   <header>gaugecolor.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GaugeCompass</class>
+   <extends>QWidget</extends>
+   <header>gaugecompass.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

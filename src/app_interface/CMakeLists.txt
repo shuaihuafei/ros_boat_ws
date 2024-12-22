@@ -38,11 +38,15 @@ set(SOURCES
     src/mainwindow.cpp
     src/boatCtlApp.cpp
     src/mapchannel.cpp
+    src/gaugecolor.cpp
+    src/gaugecompass.cpp
 )
 
 SET(HEADERS 
     include/mainwindow.h
     include/mapchannel.h
+    include/gaugecolor.h
+    include/gaugecompass.h
 )
 
 set(FORMS

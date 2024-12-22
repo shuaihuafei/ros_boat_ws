@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import rospy
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, TwistStamped
 from sensor_msgs.msg import NavSatFix
 from tf.transformations import euler_from_quaternion, quaternion_from_euler
 import time
 import math
+import random  # 导入random模块来生成随机数
 
 
 class PositionPublisher:
@@ -18,6 +19,9 @@ class PositionPublisher:
         )
         self.global_position_pub = rospy.Publisher(
             "/mavros/global_position/global", NavSatFix, queue_size=10
+        )
+        self.velocity_body_pub = rospy.Publisher(
+            "/mavros/local_position/velocity_body", TwistStamped, queue_size=10
         )
 
         # 发布频率
@@ -34,6 +38,11 @@ class PositionPublisher:
         self.z = 0.0
         self.yaw = 0.0
 
+        # 初始速度（模拟值）
+        self.vx = 20.0  # x轴速度
+        self.vy = 0.5  # y轴速度
+        self.vz = 0.2  # z轴速度
+
         self.time_start = rospy.get_time()
 
     def publish_data(self):
@@ -44,7 +53,7 @@ class PositionPublisher:
             self.x = current_time * 1.0
             self.y = current_time * 0.5
             self.z = current_time * 0.2
-            self.yaw = current_time * 5  # 模拟旋转，角度每秒增加5度
+            self.yaw = current_time * 10  # 模拟旋转，角度每秒增加5度
 
             # 发布局部坐标
             local_pose = PoseStamped()
@@ -79,6 +88,23 @@ class PositionPublisher:
 
             # 发布全局坐标数据
             self.global_position_pub.publish(global_position)
+
+            # 更新并发布速度数据
+            # 让 vx 在每次循环中略微变化
+            self.vx = 20.0
+            self.vx += random.uniform(-10, 10)  # 随机变化vx值，变化范围为[-0.05, 0.05]
+            velocity_body = TwistStamped()
+            velocity_body.header.stamp = rospy.Time.now()
+            velocity_body.header.frame_id = "base_link"
+            velocity_body.twist.linear.x = self.vx
+            velocity_body.twist.linear.y = self.vy
+            velocity_body.twist.linear.z = self.vz
+            velocity_body.twist.angular.x = 0.0  # 假设角速度为0
+            velocity_body.twist.angular.y = 0.0
+            velocity_body.twist.angular.z = current_time * 0.1  # 模拟绕z轴的角速度变化
+
+            # 发布速度数据
+            self.velocity_body_pub.publish(velocity_body)
 
             # 设置发布频率
             self.rate.sleep()

@@ -21,6 +21,8 @@
 #include <geometry_msgs/TwistStamped.h>
 
 #include "mapchannel.h"
+#include "gaugecolor.h"
+#include "gaugecompass.h"
 
 namespace Ui {
 class MainWindow;
@@ -44,6 +46,8 @@ private:
     QTimer *timer_spin;
     QWebChannel *webChannel;
     MapChannel *mapChannel;
+    // SpeedWidget *speedWidget;
+    // CompassWidget *compassWidget;
 
     // 初始化相关
     void init_QProcess();
@@ -89,7 +93,7 @@ private:
     ros::Subscriber dockCamYoloImageSubscriber;
 
     // 作为类中的变量传递使用
-    double yaw_deg;
+    double course;
 
 signals:
     void updateBoatPosition(double lng, double lat, double course);
