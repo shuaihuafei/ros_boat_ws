@@ -9,3 +9,4 @@ logs/
 *.csv
 *.workspace.user
 **/tiles/
+debug.txt
