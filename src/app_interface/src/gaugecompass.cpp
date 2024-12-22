@@ -262,10 +262,10 @@ void GaugeCompass::drawValue(QPainter *painter)
 
 void GaugeCompass::updateValue()
 {
-    qDebug() << "0Value: " << value;
+    qDebug() << "0DesValue: " << value;
     if (!reverse) {
         qDebug() << "1value + animationStep: "  << value + animationStep << "1value - animationStep: " << " "  << value - animationStep;
-        if (pre_currentValue <= (value + animationStep) && pre_currentValue > (value - animationStep)) {
+        if (currentValue <= (value + animationStep) && currentValue > (value - animationStep)) {
             currentValue = value;
             qDebug() << "1currentValue: " << currentValue;
             pre_currentValue = currentValue;
@@ -276,15 +276,16 @@ void GaugeCompass::updateValue()
             if (pre_currentValue >= 360)
             {
                 currentValue = pre_currentValue - 360;
-                qDebug() << "1pre_currentValue - 360: " << currentValue;
+                qDebug() << "2currentValue: " << currentValue;
                 pre_currentValue = currentValue;
             }
             else
                 currentValue = pre_currentValue;
+                qDebug() << "2currentValue: " << currentValue;
         }
     } else {
         qDebug() << "2value + animationStep: "  << value + animationStep << "2value - animationStep: " << " "  << value - animationStep;
-        if (pre_currentValue < (value + animationStep) && pre_currentValue >= (value - animationStep)) {
+        if (currentValue < (value + animationStep) && currentValue >= (value - animationStep)) {
             currentValue = value;
             qDebug() << "2currentValue: " << currentValue;
             pre_currentValue = currentValue;
@@ -295,11 +296,12 @@ void GaugeCompass::updateValue()
             if (pre_currentValue < 0)
             {
                 currentValue = pre_currentValue + 360;
-                qDebug() << "2pre_currentValue + 360: " << currentValue;
+                qDebug() << "2currentValue: " << currentValue;
                 pre_currentValue = currentValue;
             }
             else
                 currentValue = pre_currentValue;
+                qDebug() << "2currentValue: " << currentValue;
         }
     }
 
