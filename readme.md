@@ -66,3 +66,6 @@ git submodule add <子仓库地址>
     rm ${CONDA_PREFIX}/lib/libffi.7.so
     rm ${CONDA_PREFIX}/lib/libffi.so.7
     ```
+## 加入Qt后的编译与运行
+1. cd到当前功能包下`cd ~/ros_boat_ws`
+2. 编译并运行`catkin build && ./devel/lib/app_interface/app_interface`即可打开Qt界面
