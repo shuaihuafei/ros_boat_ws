@@ -40,7 +40,7 @@ void MainWindow::init_Variable()
 // 主窗口初始化
 void MainWindow::init_GUI()
 {
-    QPixmap pixmap_logo(":/images/logo.jpg");
+    QPixmap pixmap_logo(":/images/logo.png");
     ui->label_log->setPixmap(pixmap_logo);
     ui->label_log->setScaledContents(true);
 
