@@ -69,3 +69,4 @@ git submodule add <子仓库地址>
 ## 加入Qt后的编译与运行
 1. cd到当前功能包下`cd ~/ros_boat_ws`
 2. 编译并运行`catkin build && ./devel/lib/app_interface/app_interface`即可打开Qt界面
+3. 注意不同设备编译需要将app_interface下的CMakeLists中读Qt的包路径修改成自己的路径，否则编译将报错找不到`Qt5WebEngineCore`，修改后记得保存。

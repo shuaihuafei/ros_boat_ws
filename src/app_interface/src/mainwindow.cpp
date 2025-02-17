@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <ros/ros.h>
+#include <ros/package.h>
 
 MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     : QMainWindow(parent)
@@ -64,8 +66,13 @@ void MainWindow::init_map()
     mapChannel = new MapChannel(this);
     webChannel->registerObject("passId",mapChannel);
     ui->widget_map->page()->setWebChannel(webChannel);
-    QString currentDir = QDir::currentPath();
-    ui->widget_map->load(QUrl::fromLocalFile(currentDir + "/src/app_interface/map/OfflineMap/map.html"));
+    
+    // 获取ROS功能包路径
+    std::string package_path = ros::package::getPath("app_interface"); // 替换为你的功能包名
+    QString mapPath = QString::fromStdString(package_path) + "/map/OfflineMap/map.html";
+    qDebug() << "Map path:" << mapPath;
+    ui->widget_map->load(QUrl::fromLocalFile(mapPath));
+
     // connect(mapChannel,&MapChannel::reloadMapClicked,this,&MainWindow::reloadMap);
 
     // 将实际的经纬度信息发给地图显示

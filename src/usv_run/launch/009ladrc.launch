@@ -1,0 +1,44 @@
+<launch>
+    <!-- 基础控制参数 -->
+    <arg name="kp_d" default="0.05" />
+    <arg name="deg_th" default="22.0" />
+    <arg name="ladrc_throttle_output" default="0.0" />
+    <arg name="kp_boat_angle" default="1.1" />
+
+    <!-- LADRC偏航控制参数 -->
+    <arg name="wo_yaw" default="10.0" />        <!-- 观测器带宽 -->
+    <arg name="wc_yaw" default="5.0" />         <!-- 控制器带宽 -->
+    <arg name="b0_yaw" default="1.0" />         <!-- 系统增益估计 -->
+    <arg name="output_limit_yaw_l" default="-1.0" />
+    <arg name="output_limit_yaw_r" default="1.0" />
+
+    <!-- LADRC油门控制参数 -->
+    <arg name="wo_throttle" default="10.0" />    <!-- 观测器带宽 -->
+    <arg name="wc_throttle" default="5.0" />     <!-- 控制器带宽 -->
+    <arg name="b0_throttle" default="1.0" />     <!-- 系统增益估计 -->
+    <arg name="output_limit_throttle_l" default="0.0" />
+    <arg name="output_limit_throttle_r" default="1.0" />
+
+    <!-- 启动节点，传递参数 -->
+    <node name="actuator_ctrl_dock_boat" pkg="usv_run" type="007actuator_ctrl_dock_boat" output="screen">
+        <!-- 基础参数 -->
+        <param name="kp_d" value="$(arg kp_d)" />
+        <param name="deg_th" value="$(arg deg_th)" />
+        <param name="ladrc_throttle_output" value="$(arg ladrc_throttle_output)" />
+        <param name="kp_boat_angle" value="$(arg kp_boat_angle)" />
+
+        <!-- LADRC偏航参数 -->
+        <param name="wo_yaw" value="$(arg wo_yaw)" />
+        <param name="wc_yaw" value="$(arg wc_yaw)" />
+        <param name="b0_yaw" value="$(arg b0_yaw)" />
+        <param name="output_limit_yaw_l" value="$(arg output_limit_yaw_l)" />
+        <param name="output_limit_yaw_r" value="$(arg output_limit_yaw_r)" />
+
+        <!-- LADRC油门参数 -->
+        <param name="wo_throttle" value="$(arg wo_throttle)" />
+        <param name="wc_throttle" value="$(arg wc_throttle)" />
+        <param name="b0_throttle" value="$(arg b0_throttle)" />
+        <param name="output_limit_throttle_l" value="$(arg output_limit_throttle_l)" />
+        <param name="output_limit_throttle_r" value="$(arg output_limit_throttle_r)" />
+    </node>
+</launch>

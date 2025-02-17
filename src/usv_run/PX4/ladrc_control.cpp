@@ -82,6 +82,26 @@ private:
     float last_output;
 };
 
+
+// 用于四元数转换的辅助函数
+geometry_msgs::Quaternion euler_to_quaternion(double roll, double pitch, double yaw) {
+    geometry_msgs::Quaternion q;
+
+    double cy = cos(yaw * 0.5);
+    double sy = sin(yaw * 0.5);
+    double cp = cos(pitch * 0.5);
+    double sp = sin(pitch * 0.5);
+    double cr = cos(roll * 0.5);
+    double sr = sin(roll * 0.5);
+
+    q.w = cr * cp * cy + sr * sp * sy;
+    q.x = sr * cp * cy - cr * sp * sy;
+    q.y = cr * sp * sy + sr * cp * cy;
+    q.z = cr * cp * sy - sr * sp * cy;
+
+    return q;
+}
+
 // 用于四元数转换的辅助函数，将四元数转换为欧拉角（roll, pitch, yaw）
 void quaternion_to_euler(const geometry_msgs::Quaternion& q, double& roll, double& pitch, double& yaw) {
     // 计算欧拉角
@@ -106,28 +126,28 @@ public:
         // 从参数服务器获取参数
         nh_.param("kp_d", kp_d, 0.01);
         nh_.param("deg_th", deg_th, 10.0);
-        nh_.param("pid_throttle_output", pid_throttle_output, 0.5);
+        nh_.param("ladrc_throttle_output", ladrc_throttle_output, 0.5);
         nh_.param("kp_boat_angle", kp_boat_angle, 1.0);
-        ROS_INFO("kp_d: %f, kp_boat_angle: %f, deg_th: %f, pid_throttle_output: %f", kp_d, kp_boat_angle, deg_th, pid_throttle_output);
+        ROS_INFO("kp_d: %f, kp_boat_angle: %f, deg_th: %f, ladrc_throttle_output: %f", 
+                 kp_d, kp_boat_angle, deg_th, ladrc_throttle_output);
 
-        // 获取PID参数
-        nh_.param("kp_yaw", pid_yaw.kp, 1.0f);
-        nh_.param("ki_yaw", pid_yaw.ki, 0.0f);
-        nh_.param("kd_yaw", pid_yaw.kd, 0.0f);
-        nh_.param("output_limit_yaw_l", pid_yaw.output_limit_l, -1.0f);
-        nh_.param("output_limit_yaw_r", pid_yaw.output_limit_r, 1.0f);
-        nh_.param("integral_limit_yaw", pid_yaw.integral_limit, 1.0f);
-        ROS_INFO("pid_yaw.kp: %f", pid_yaw.kp);
+        // 获取LADRC参数
+        nh_.param("wo_yaw", ladrc_yaw.wo, 10.0f);
+        nh_.param("wc_yaw", ladrc_yaw.wc, 5.0f);
+        nh_.param("b0_yaw", ladrc_yaw.b0, 1.0f);
+        nh_.param("output_limit_yaw_l", ladrc_yaw.output_limit_l, -1.0f);
+        nh_.param("output_limit_yaw_r", ladrc_yaw.output_limit_r, 1.0f);
+        ROS_INFO("ladrc_yaw.wo: %f, ladrc_yaw.wc: %f, ladrc_yaw.b0: %f", 
+                 ladrc_yaw.wo, ladrc_yaw.wc, ladrc_yaw.b0);
 
-        nh_.param("kp_throttle", pid_throttle.kp, 1.0f);
-        nh_.param("ki_throttle", pid_throttle.ki, 0.0f);
-        nh_.param("kd_throttle", pid_throttle.kd, 0.0f);
-        nh_.param("output_limit_throttle_l", pid_throttle.output_limit_l, -1.0f);
-        nh_.param("output_limit_throttle_r", pid_throttle.output_limit_r, 1.0f);
-        nh_.param("integral_limit_throttle", pid_throttle.integral_limit, 1.0f);
+        nh_.param("wo_throttle", ladrc_throttle.wo, 10.0f);
+        nh_.param("wc_throttle", ladrc_throttle.wc, 5.0f);
+        nh_.param("b0_throttle", ladrc_throttle.b0, 1.0f);
+        nh_.param("output_limit_throttle_l", ladrc_throttle.output_limit_l, -1.0f);
+        nh_.param("output_limit_throttle_r", ladrc_throttle.output_limit_r, 1.0f);
 
-        pid_yaw_ctrl.update(pid_yaw);
-        pid_throttle_ctrl.update(pid_throttle);
+        ladrc_yaw_ctrl.update(ladrc_yaw);
+        ladrc_throttle_ctrl.update(ladrc_throttle);
 
         // 初始化订阅和发布
         state_sub = nh_.subscribe("/mavros/state", 10, &AttitudeControlNode::state_cb, this);
@@ -158,21 +178,21 @@ public:
         control_signal_3 = 0.0;
         pid_yaw_output = 0.0;
 
-        // 这个CSV文件用来记录实验数据
-        output_file_pid.open("/home/shuai/ros_boat_ws/boat_data_pid.csv", std::ios::app);
-        if (output_file_pid.is_open()) {
-            output_file_pid << "time,latitude,longitude,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
-        } else {
-            ROS_ERROR("Failed to open CSV file for logging.");
-        }
+        // // 这个CSV文件用来记录实验数据
+        // output_file_pid.open("/home/shuai/ros_boat_ws/boat_data_pid.csv", std::ios::app);
+        // if (output_file_pid.is_open()) {
+        //     output_file_pid << "time,latitude,longitude,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
+        // } else {
+        //     ROS_ERROR("Failed to open CSV file for logging.");
+        // }
         
-        // 这个CSV文件用来调试PID
-        output_file_pid_test.open("/home/shuai/ros_boat_ws/boat_data_pid_test.csv", std::ios::out);
-        if (output_file_pid_test.is_open()) {
-            output_file_pid_test << "time,latitude,longitude,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
-        } else {
-            ROS_ERROR("Failed to open CSV file for logging.");
-        }
+        // // 这个CSV文件用来调试PID
+        // output_file_pid_test.open("/home/shuai/ros_boat_ws/boat_data_pid_test.csv", std::ios::out);
+        // if (output_file_pid_test.is_open()) {
+        //     output_file_pid_test << "time,latitude,longitude,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
+        // } else {
+        //     ROS_ERROR("Failed to open CSV file for logging.");
+        // }
     }
 
     ~AttitudeControlNode() {
@@ -191,72 +211,46 @@ public:
 
     // 电机控制
     void sendActuatorControl() {
-        if(dock_angle != -1)
-        {
-            // ros::Time now = ros::Time::now();
-            // double dt = (now - last_update_time).toSec();
-            // last_update_time = now;
+        if(dock_angle != -1) {
             double dt = 0.01;
 
-            pid_yaw_output = -1 * pid_yaw_ctrl.calculate(current_yaw, desired_yaw, dt);
+            ladrc_yaw_output = -1 * ladrc_yaw_ctrl.calculate(current_yaw, desired_yaw, dt);
             des_cur_error = desired_yaw - current_yaw;
             ROS_INFO_THROTTLE(1, "error angle: %f deg", des_cur_error);
 
-            // if(fabs(pid_throttle_output - 0.0) < 0.1)
-            pid_throttle_output = 0.5;
+            ladrc_throttle_output = 0.5;
 
-            // pid_throttle_output = kp_d * (deg_th - fabs(dock_angle)) * pid_throttle_output + pid_throttle_output;
-            // if(pid_throttle_output < -1){
-            //     pid_throttle_output = -1;
-            // }
-            // else if(pid_throttle_output > 1){
-            //     pid_throttle_output = 1;
-            // }
-            // pid_throttle_output = pid_throttle_ctrl.calculate(current_v_body_x, desired_v_body_x, dt);
-
-            ROS_INFO_THROTTLE(1, "pid_yaw_output: %f", pid_yaw_output);
-            ROS_INFO_THROTTLE(1, "pid_throttle_output: %f", pid_throttle_output);
+            ROS_INFO_THROTTLE(1, "ladrc_yaw_output: %f", ladrc_yaw_output);
+            ROS_INFO_THROTTLE(1, "ladrc_throttle_output: %f", ladrc_throttle_output);
 
             mavros_msgs::ActuatorControl actuator_control_msg;
-            // 设置电机控制值
             actuator_control_msg.controls[0] = 0.0;
             actuator_control_msg.controls[1] = 0.0;
-            actuator_control_msg.controls[2] = pid_yaw_output;
-            actuator_control_msg.controls[3] = pid_throttle_output;
+            actuator_control_msg.controls[2] = ladrc_yaw_output;
+            actuator_control_msg.controls[3] = ladrc_throttle_output;
             actuator_control_msg.controls[4] = 0.0;
             actuator_control_msg.controls[5] = 0.0;
             actuator_control_msg.controls[6] = 0.0;
             actuator_control_msg.controls[7] = 0.0;
 
-            actuator_control_msg.group_mix = 0;  // 控制组
-            // 发布控制信号
+            actuator_control_msg.group_mix = 0;
             actuator_control_pub.publish(actuator_control_msg);
         }
-        else{
-
-            // if(current_yaw < M_PI)
-            // {
-                pid_yaw_output = -1;
-                pid_throttle_output = 0;
-            // }
-            // else if(current_yaw <= 2 * M_PI){
-            //     pid_yaw_output = 1;
-            //     pid_throttle_output = 0;
-            // }
+        else {
+            ladrc_yaw_output = -1;
+            ladrc_throttle_output = 0;
 
             mavros_msgs::ActuatorControl actuator_control_msg;
-            // 设置电机控制值
             actuator_control_msg.controls[0] = 0.0;
             actuator_control_msg.controls[1] = 0.0;
-            actuator_control_msg.controls[2] = pid_yaw_output;
-            actuator_control_msg.controls[3] = pid_throttle_output;
+            actuator_control_msg.controls[2] = ladrc_yaw_output;
+            actuator_control_msg.controls[3] = ladrc_throttle_output;
             actuator_control_msg.controls[4] = 0.0;
             actuator_control_msg.controls[5] = 0.0;
             actuator_control_msg.controls[6] = 0.0;
             actuator_control_msg.controls[7] = 0.0;
 
-            actuator_control_msg.group_mix = 0;  // 控制组
-            // 发布控制信号
+            actuator_control_msg.group_mix = 0;
             actuator_control_pub.publish(actuator_control_msg);
         }
     }
@@ -511,10 +505,9 @@ private:
     ros::Publisher actuator_control_pub;
     ros::ServiceClient set_mode_client, arming_client;
 
-    PID_t pid_yaw{}, pid_throttle{};
-
-    PID pid_yaw_ctrl;
-    PID pid_throttle_ctrl;
+    LADRC_t ladrc_yaw{}, ladrc_throttle{};
+    LADRC ladrc_yaw_ctrl;
+    LADRC ladrc_throttle_ctrl;
     mavros_msgs::State current_state;
 
     double kp_d, deg_th, kp_boat_angle;
@@ -522,8 +515,8 @@ private:
     double des_cur_error;
     double dock_angle, boat_angle;
     double desired_yaw, desired_v_body_x;
-    double pid_yaw_output;
-    double pid_throttle_output;
+    double ladrc_yaw_output;
+    double ladrc_throttle_output;
     bool flag_yaw, flag_v_x;
     int update_counter;
     float control_signal_2, control_signal_3;
