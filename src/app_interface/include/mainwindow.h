@@ -43,6 +43,7 @@ private:
     QProcess *startDockProcess;
     QProcess *startDockCamProcess;
     QProcess *startDockCamYoloProcess;
+    QProcess *positionControlProcess;
     QTimer *timer_spin;
     QWebChannel *webChannel;
     MapChannel *mapChannel;
@@ -63,6 +64,8 @@ private:
     void startDockCamOrigin();
     void startDockCamYolo();
     void startGoDock();
+    void startPositionCtrl();
+
     
     // 回调函数相关
     void boatCamImageOriginCallback(const sensor_msgs::ImageConstPtr& msg);
@@ -88,6 +91,8 @@ private:
     ros::Subscriber boatCamYoloImageSubscriber;
     ros::Subscriber dockCamOriginImageSubscriber;
     ros::Subscriber dockCamYoloImageSubscriber;
+    ros::Subscriber boatPositionCtrlSubscriber;
+    ros::Publisher target_pos_pub_;  // ROS发布者
 
     // 作为类中的变量传递使用
     double course;

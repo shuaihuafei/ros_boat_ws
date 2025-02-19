@@ -140,6 +140,8 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(002actuator_control_node PX4/002actuator_control_node.cpp)
 add_executable(007actuator_ctrl_dock_boat PX4/007actuator_ctrl_dock_boat.cpp)
+add_executable(position_ctrl PX4/position_ctrl.cpp)
+
 # add_executable(008position_ctrl PX4/008position_ctrl.cpp)
 
 ## APM
@@ -163,6 +165,9 @@ target_link_libraries(002actuator_control_node
   ${catkin_LIBRARIES}
 )
 target_link_libraries(007actuator_ctrl_dock_boat
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(position_ctrl
   ${catkin_LIBRARIES}
 )
 # target_link_libraries(008position_ctrl

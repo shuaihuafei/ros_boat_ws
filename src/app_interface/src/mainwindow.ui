@@ -429,7 +429,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_mode">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_mode">
           <attribute name="title">
@@ -444,11 +444,6 @@
                 <item>
                  <property name="text">
                   <string>手动模式</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>远控模式</string>
                  </property>
                 </item>
                 <item>
@@ -545,6 +540,29 @@
             </widget>
            </item>
            <item>
+            <spacer name="horizontalSpacer_16">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>80</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_position_ctrl">
+             <property name="text">
+              <string>启动位置控制</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="horizontalSpacer_9">
              <property name="orientation">
               <enum>Qt::Orientation::Horizontal</enum>
@@ -599,34 +617,31 @@
           <bool>false</bool>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_xunhang">
-            <property name="text">
-             <string>巡航速度:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_zhidao">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_PID">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="text">
-             <string>制导参数:</string>
+             <string>PID:</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
            </widget>
           </item>
-          <item row="0" column="3">
-           <widget class="QLineEdit" name="lineEdit_D"/>
+          <item row="3" column="0" colspan="2">
+           <widget class="QPushButton" name="pushButton_param_chaxun">
+            <property name="text">
+             <string>参数查询</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_P"/>
           </item>
           <item row="1" column="2">
            <widget class="QLabel" name="label_daodian">
@@ -645,38 +660,37 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="2" colspan="2">
-           <widget class="QPushButton" name="pushButton_param_out">
+          <item row="0" column="2">
+           <widget class="QLineEdit" name="lineEdit_I"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEdit_xunhang"/>
+          </item>
+          <item row="3" column="2" colspan="2">
+           <widget class="QPushButton" name="pushButton_param_shezhi">
             <property name="text">
-             <string>参数导出</string>
+             <string>参数设置</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QPushButton" name="pushButton_param_chaxun">
-            <property name="text">
-             <string>参数查询</string>
-            </property>
-           </widget>
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="lineEdit_daodian"/>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_PID">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_zhidao">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="text">
-             <string>PID:</string>
+             <string>制导参数:</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
            </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QLineEdit" name="lineEdit_fanhang"/>
           </item>
           <item row="2" column="2">
            <widget class="QLabel" name="label_fanhang">
@@ -688,27 +702,31 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QLineEdit" name="lineEdit_daodian"/>
+          <item row="0" column="3">
+           <widget class="QLineEdit" name="lineEdit_D"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_xunhang">
+            <property name="text">
+             <string>巡航速度:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2" colspan="2">
+           <widget class="QPushButton" name="pushButton_param_out">
+            <property name="text">
+             <string>参数导出</string>
+            </property>
+           </widget>
           </item>
           <item row="1" column="1">
            <widget class="QLineEdit" name="lineEdit_zhidao"/>
           </item>
-          <item row="3" column="2" colspan="2">
-           <widget class="QPushButton" name="pushButton_param_shezhi">
-            <property name="text">
-             <string>参数设置</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_P"/>
-          </item>
-          <item row="0" column="2">
-           <widget class="QLineEdit" name="lineEdit_I"/>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="lineEdit_xunhang"/>
+          <item row="2" column="3">
+           <widget class="QLineEdit" name="lineEdit_fanhang"/>
           </item>
          </layout>
         </widget>

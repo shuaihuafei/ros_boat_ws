@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <ros/ros.h>
 #include <ros/package.h>
+#include <sensor_msgs/NavSatFix.h>
 
 MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     : QMainWindow(parent)
@@ -13,10 +14,13 @@ MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     if (!nh_) {
         nh_ = std::make_shared<ros::NodeHandle>();  // 延迟初始化
     }
+    // 初始化ROS发布者
+    target_pos_pub_ = nh_->advertise<sensor_msgs::NavSatFix>("/target_global_position", 10);
 
     init_QProcess();
     init_Variable();
     init_GUI();
+    init_map();
 
     startBoatCamOrigin();
     startBoatCamYolo();
@@ -24,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent,int argc,char** argv)
     startDockCamOrigin();
     startDockCamYolo();
     startGoDock();
+    startPositionCtrl();
+
 }
 
 void MainWindow::init_QProcess()
@@ -32,6 +38,7 @@ void MainWindow::init_QProcess()
     startDockProcess = nullptr;
     startDockCamProcess = nullptr;
     startDockCamYoloProcess = nullptr;
+    positionControlProcess = nullptr;
 }
 
 void MainWindow::init_Variable()
@@ -64,23 +71,52 @@ void MainWindow::init_map()
 {
     webChannel = new QWebChannel(this);
     mapChannel = new MapChannel(this);
-    webChannel->registerObject("passId",mapChannel);
+    webChannel->registerObject("passId", mapChannel);
     ui->widget_map->page()->setWebChannel(webChannel);
     
     // 获取ROS功能包路径
-    std::string package_path = ros::package::getPath("app_interface"); // 替换为你的功能包名
+    std::string package_path = ros::package::getPath("app_interface");
     QString mapPath = QString::fromStdString(package_path) + "/map/OfflineMap/map.html";
     qDebug() << "Map path:" << mapPath;
     ui->widget_map->load(QUrl::fromLocalFile(mapPath));
-
-    // connect(mapChannel,&MapChannel::reloadMapClicked,this,&MainWindow::reloadMap);
-
     // 将实际的经纬度信息发给地图显示
     connect(this, &MainWindow::updateBoatPosition, mapChannel, &MapChannel::updateBoatPos);
-    // 将地图上的航点发回来
-    connect(mapChannel,&MapChannel::pointsCome,[](int index, double lng, double lat){
-        qDebug()<<index<<QString::number(lng,'f',6)<<QString::number(lat,'f',6);
+    // 将地图上的航点通过ROS话题发布出去
+    connect(mapChannel, &MapChannel::pointsCome, 
+            [this](int index, double lng, double lat) {
+        qDebug() << "Waypoint:" << index 
+                 << "Longitude:" << QString::number(lng,'f',6) 
+                 << "Latitude:" << QString::number(lat,'f',6);
+        
+        // 创建并发布NavSatFix消息
+        sensor_msgs::NavSatFix target_msg;
+        target_msg.header.stamp = ros::Time::now();
+        target_msg.header.frame_id = "map";
+        
+        target_msg.latitude = lat;
+        target_msg.longitude = lng;
+        target_msg.altitude = 0.0;
+        
+        // 设置协方差
+        target_msg.position_covariance_type = sensor_msgs::NavSatFix::COVARIANCE_TYPE_UNKNOWN;
+        
+        // 发布消息
+        if (nh_ && target_pos_pub_) {
+            target_pos_pub_.publish(target_msg);
+            ROS_INFO("Published target position: lat=%.6f, lon=%.6f", lat, lng);
+        } else {
+            ROS_WARN("ROS publisher not initialized");
+        }
     });
+
+    // 添加ROS消息处理的定时器
+    QTimer *ros_timer = new QTimer(this);
+    connect(ros_timer, &QTimer::timeout, []() {
+        if (ros::ok()) {
+            ros::spinOnce();
+        }
+    });
+    ros_timer->start(100);  // 每100ms处理一次ROS消息
 }
 
 void MainWindow::init_UpdateSubscriber()
@@ -113,6 +149,30 @@ void MainWindow::startBoatCamOrigin()
             if (boatCamOriginImageSubscriber) {
                 boatCamOriginImageSubscriber.shutdown();
                 ui->textEdit_qdebug->append("<font color='red'>已停止订阅相机原图像话题</font>");
+            }
+        }
+    });
+}
+
+void MainWindow::startPositionCtrl()
+{
+    // 确保 positionControlProcess 已经初始化
+    positionControlProcess = new QProcess(this);
+    connect(ui->pushButton_position_ctrl, &QPushButton::toggled, [=](bool toggled_flag) {
+        if (toggled_flag) {
+            ui->pushButton_position_ctrl->setText("关闭位置控制");
+            // 启动ROS节点
+            positionControlProcess->start("rosrun", QStringList() << "usv_run" << "position_ctrl");
+            if (positionControlProcess->waitForStarted()) {
+                ui->textEdit_qdebug->append("<font color='green'>位置控制节点已启动</font>");
+            }
+        } else {
+            ui->pushButton_position_ctrl->setText("开启位置控制");
+            // 关闭ROS节点
+            if (positionControlProcess->state() == QProcess::Running) {
+                positionControlProcess->terminate();
+                positionControlProcess->waitForFinished();
+                ui->textEdit_qdebug->append("<font color='red'>位置控制节点已关闭</font>");
             }
         }
     });
@@ -482,4 +542,6 @@ void MainWindow::startGoDock()
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete webChannel;
+    delete mapChannel;
 }
