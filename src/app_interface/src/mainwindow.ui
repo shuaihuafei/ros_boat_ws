@@ -45,7 +45,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_display">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_map">
           <attribute name="title">
@@ -61,8 +61,8 @@
           <attribute name="title">
            <string>无人艇摄像头</string>
           </attribute>
-          <layout class="QGridLayout" name="gridLayout_6">
-           <item row="0" column="0" colspan="2">
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
             <widget class="QWidget" name="widget" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -133,28 +133,25 @@
              </layout>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_cam_boat_origin">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_cam_boat_origin">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_cam_boat_yolo">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="label_cam_boat_yolo">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab_cam_dock">
-          <attribute name="title">
-           <string>坞舱摄像头</string>
-          </attribute>
-          <layout class="QGridLayout" name="gridLayout_3">
-           <item row="0" column="0" colspan="2">
+           <item>
             <widget class="QWidget" name="widget_3" native="true">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -162,9 +159,9 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
               <item>
-               <spacer name="horizontalSpacer_6">
+               <spacer name="horizontalSpacer_12">
                 <property name="orientation">
                  <enum>Qt::Orientation::Horizontal</enum>
                 </property>
@@ -187,7 +184,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_7">
+               <spacer name="horizontalSpacer_13">
                 <property name="orientation">
                  <enum>Qt::Orientation::Horizontal</enum>
                 </property>
@@ -210,7 +207,7 @@
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_8">
+               <spacer name="horizontalSpacer_16">
                 <property name="orientation">
                  <enum>Qt::Orientation::Horizontal</enum>
                 </property>
@@ -225,21 +222,30 @@
              </layout>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_cam_dock_origin">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="label_cam_dock_yolo">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QLabel" name="label_cam_dock_origin">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_cam_dock_yolo">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
+         </widget>
+         <widget class="QWidget" name="tab_cam_dock">
+          <attribute name="title">
+           <string>坞舱摄像头</string>
+          </attribute>
          </widget>
         </widget>
        </item>
