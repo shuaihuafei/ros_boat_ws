@@ -12,14 +12,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1500</width>
-    <height>1200</height>
+    <width>0</width>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1500</width>
-    <height>1200</height>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -429,7 +429,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_mode">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="tab_mode">
           <attribute name="title">
@@ -515,93 +515,57 @@
           <attribute name="title">
            <string>任务设置</string>
           </attribute>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>81</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_start_cam_dock">
-             <property name="text">
-              <string>开启坞舱摄像头</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_16">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>80</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_position_ctrl">
-             <property name="text">
-              <string>启动位置控制</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_9">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>82</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_start_dock">
-             <property name="text">
-              <string>启动入坞程序</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Orientation::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>81</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
+          <widget class="QPushButton" name="pushButton_position_ctrl">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>20</y>
+             <width>98</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>启动位置控制</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_start_dock">
+           <property name="geometry">
+            <rect>
+             <x>300</x>
+             <y>20</y>
+             <width>98</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>启动入坞程序</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_start_cam_dock">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>113</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>开启坞舱摄像头</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
          </widget>
         </widget>
        </item>
@@ -633,16 +597,6 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0" colspan="2">
-           <widget class="QPushButton" name="pushButton_param_chaxun">
-            <property name="text">
-             <string>参数查询</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_P"/>
-          </item>
           <item row="1" column="2">
            <widget class="QLabel" name="label_daodian">
             <property name="text">
@@ -653,6 +607,29 @@
             </property>
            </widget>
           </item>
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="lineEdit_daodian"/>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEdit_xunhang"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_P"/>
+          </item>
+          <item row="4" column="2" colspan="2">
+           <widget class="QPushButton" name="pushButton_param_out">
+            <property name="text">
+             <string>参数导出</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0" colspan="2">
+           <widget class="QPushButton" name="pushButton_param_chaxun">
+            <property name="text">
+             <string>参数查询</string>
+            </property>
+           </widget>
+          </item>
           <item row="4" column="0" colspan="2">
            <widget class="QPushButton" name="pushButton_param_in">
             <property name="text">
@@ -660,11 +637,34 @@
             </property>
            </widget>
           </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_xunhang">
+            <property name="text">
+             <string>巡航速度:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLineEdit" name="lineEdit_D"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_zhidao"/>
+          </item>
           <item row="0" column="2">
            <widget class="QLineEdit" name="lineEdit_I"/>
           </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="lineEdit_xunhang"/>
+          <item row="2" column="2">
+           <widget class="QLabel" name="label_fanhang">
+            <property name="text">
+             <string>返航速度:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
           </item>
           <item row="3" column="2" colspan="2">
            <widget class="QPushButton" name="pushButton_param_shezhi">
@@ -673,8 +673,8 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="3">
-           <widget class="QLineEdit" name="lineEdit_daodian"/>
+          <item row="2" column="3">
+           <widget class="QLineEdit" name="lineEdit_fanhang"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_zhidao">
@@ -691,42 +691,6 @@
              <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
            </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="label_fanhang">
-            <property name="text">
-             <string>返航速度:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QLineEdit" name="lineEdit_D"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_xunhang">
-            <property name="text">
-             <string>巡航速度:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2" colspan="2">
-           <widget class="QPushButton" name="pushButton_param_out">
-            <property name="text">
-             <string>参数导出</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit_zhidao"/>
-          </item>
-          <item row="2" column="3">
-           <widget class="QLineEdit" name="lineEdit_fanhang"/>
           </item>
          </layout>
         </widget>
