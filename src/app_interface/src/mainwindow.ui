@@ -41,570 +41,698 @@
         <height>16777215</height>
        </size>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QTabWidget" name="tabWidget_display">
-         <property name="currentIndex">
-          <number>1</number>
+      <widget class="QTabWidget" name="tabWidget_display">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>9</y>
+         <width>900</width>
+         <height>791</height>
+        </rect>
+       </property>
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
+       <widget class="QWidget" name="tab_map">
+        <attribute name="title">
+         <string>地图</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QWebEngineView" name="widget_map" native="true"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_cam_boat">
+        <attribute name="title">
+         <string>摄像机相关节点</string>
+        </attribute>
+        <widget class="QWidget" name="widget" native="true">
+         <property name="geometry">
+          <rect>
+           <x>9</x>
+           <y>9</y>
+           <width>878</width>
+           <height>48</height>
+          </rect>
          </property>
-         <widget class="QWidget" name="tab_map">
-          <attribute name="title">
-           <string>地图</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QWebEngineView" name="widget_map" native="true"/>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab_cam_boat">
-          <attribute name="title">
-           <string>摄像机相关节点</string>
-          </attribute>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
-            <widget class="QWidget" name="widget" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
-              <item>
-               <spacer name="horizontalSpacer_3">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>334</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_cam_boat_origin">
-                <property name="text">
-                 <string>开启相机原图像</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>334</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_cam_boat_yolo">
-                <property name="text">
-                 <string>开启yolo识别图像</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>335</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <item>
-              <widget class="QLabel" name="label_cam_boat_origin">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_cam_boat_yolo">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QWidget" name="widget_3" native="true">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_11">
-              <item>
-               <spacer name="horizontalSpacer_12">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>334</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_cam_dock_origin">
-                <property name="text">
-                 <string>开启相机原图像</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_13">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>334</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_cam_dock_yolo">
-                <property name="text">
-                 <string>开启yolo识别图像</string>
-                </property>
-                <property name="checkable">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_16">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>335</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QLabel" name="label_cam_dock_origin">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_cam_dock_yolo">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-       <item>
-        <widget class="QWidget" name="widget_7" native="true">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LayoutDirection::LeftToRight</enum>
-         </property>
-         <property name="autoFillBackground">
-          <bool>false</bool>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <spacer name="horizontalSpacer_14">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_log">
-              <property name="minimumSize">
-               <size>
-                <width>396</width>
-                <height>100</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>396</width>
-                <height>100</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_15">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="GaugeCompass" name="widget_attitude" native="true">
-              <property name="minimumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="GaugeColor" name="widget_speed" native="true">
-              <property name="minimumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QTabWidget" name="tabWidget_mode">
-            <property name="currentIndex">
-             <number>1</number>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
-            <widget class="QWidget" name="tab_mode">
-             <attribute name="title">
-              <string>模式设置</string>
-             </attribute>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QWidget" name="widget_5" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout">
-                 <item>
-                  <widget class="QComboBox" name="comboBox">
-                   <item>
-                    <property name="text">
-                     <string>手动模式</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>自主模式</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_mode">
-                   <property name="text">
-                    <string>模式设置</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_init">
-                   <property name="text">
-                    <string>初始化</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QWidget" name="widget_6" native="true">
-                <layout class="QGridLayout" name="gridLayout">
-                 <item row="1" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_yaw"/>
-                 </item>
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_throttle">
-                   <property name="text">
-                    <string>前进:</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignmentFlag::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox_throttle"/>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_yaw">
-                   <property name="text">
-                    <string>转向:</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignmentFlag::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0" colspan="2">
-                  <widget class="QPushButton" name="pushButton_rc">
-                   <property name="text">
-                    <string>遥控</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="tab_task">
-             <attribute name="title">
-              <string>任务设置</string>
-             </attribute>
-             <widget class="QPushButton" name="pushButton_position_ctrl">
-              <property name="geometry">
-               <rect>
-                <x>160</x>
-                <y>20</y>
-                <width>98</width>
-                <height>30</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>启动位置控制</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="pushButton_start_dock">
-              <property name="geometry">
-               <rect>
-                <x>300</x>
-                <y>20</y>
-                <width>98</width>
-                <height>30</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>启动入坞程序</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="checked">
-               <bool>false</bool>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="pushButton_start_cam_dock">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>20</y>
-                <width>113</width>
-                <height>30</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>开启坞舱摄像头</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </widget>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>334</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_cam_boat_origin">
+            <property name="text">
+             <string>开启无人艇相机原图像</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
-           <widget class="QTabWidget" name="tabWidget">
-            <property name="currentIndex">
-             <number>0</number>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
-            <widget class="QWidget" name="tab">
-             <attribute name="title">
-              <string>状态显示</string>
-             </attribute>
-             <layout class="QGridLayout" name="gridLayout_5">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_longitude">
-                <property name="text">
-                 <string>经度:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QLabel" name="label_throttle_value">
-                <property name="text">
-                 <string>0m/s</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_ENU_X">
-                <property name="text">
-                 <string>ENU_X:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="3">
-               <widget class="QLabel" name="label_latitude_value">
-                <property name="text">
-                 <string>32.12°</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="label_yaw_value">
-                <property name="text">
-                 <string>0°</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QLabel" name="label_throttle">
-                <property name="text">
-                 <string>航速:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="3">
-               <widget class="QLabel" name="label_ENU_Y_value">
-                <property name="text">
-                 <string>0m</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="label_ENU_Y">
-                <property name="text">
-                 <string>ENU_Y:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="label_ENU_X_value">
-                <property name="text">
-                 <string>0m</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_yaw">
-                <property name="text">
-                 <string>艏向:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QLabel" name="label_latitude">
-                <property name="text">
-                 <string>纬度:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="label_longitude_value">
-                <property name="text">
-                 <string>119.36°</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="tab_2">
-             <attribute name="title">
-              <string>消息显示</string>
-             </attribute>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <widget class="QTextEdit" name="textEdit_qdebug"/>
-              </item>
-             </layout>
-            </widget>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>480</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_cam_boat_yolo">
+            <property name="text">
+             <string>开启无人艇yolo识别图像</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>335</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="widget_3" native="true">
+         <property name="geometry">
+          <rect>
+           <x>9</x>
+           <y>383</y>
+           <width>878</width>
+           <height>48</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <spacer name="horizontalSpacer_12">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>334</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_cam_dock_origin">
+            <property name="text">
+             <string>开启坞舱相机原图像</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_13">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>480</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_cam_dock_yolo">
+            <property name="text">
+             <string>开启坞舱yolo识别图像</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_16">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>335</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>80</y>
+           <width>851</width>
+           <height>281</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_cam_boat_yolo">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_cam_boat_origin">
+            <property name="text">
+             <string/>
+            </property>
            </widget>
           </item>
          </layout>
         </widget>
-       </item>
-      </layout>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>430</y>
+           <width>891</width>
+           <height>321</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #E6F7FF, stop:1 #ADD8E6);
+border-radius: 10px;
+border: 2px solid transparent;
+</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="styleSheet">
+             <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #E6F7FF, stop:1 #ADD8E6);
+border-radius: 10px;
+border: 2px solid transparent;
+</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+         <zorder>label_2</zorder>
+         <zorder>label</zorder>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>448</y>
+           <width>851</width>
+           <height>281</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_cam_dock_origin">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_cam_dock_yolo">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+         <zorder>label_cam_dock_yolo</zorder>
+         <zorder>label_cam_dock_origin</zorder>
+        </widget>
+        <widget class="QWidget" name="layoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>60</y>
+           <width>891</width>
+           <height>321</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #E6F7FF, stop:1 #ADD8E6);
+border-radius: 10px;
+border: 2px solid transparent;
+</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="styleSheet">
+             <string notr="true">background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #E6F7FF, stop:1 #ADD8E6);
+border-radius: 10px;
+border: 2px solid transparent;
+</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="widget_7" native="true">
+       <property name="geometry">
+        <rect>
+         <x>915</x>
+         <y>9</y>
+         <width>428</width>
+         <height>791</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LayoutDirection::LeftToRight</enum>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <spacer name="horizontalSpacer_14">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_log">
+            <property name="minimumSize">
+             <size>
+              <width>396</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>396</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_15">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="GaugeCompass" name="widget_attitude" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="GaugeColor" name="widget_speed" native="true">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>200</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="tabWidget_mode">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="tab_mode">
+           <attribute name="title">
+            <string>模式设置</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QWidget" name="widget_5" native="true">
+              <layout class="QVBoxLayout" name="verticalLayout">
+               <item>
+                <widget class="QComboBox" name="comboBox">
+                 <item>
+                  <property name="text">
+                   <string>手动模式</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>自主模式</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_mode">
+                 <property name="text">
+                  <string>模式设置</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_init">
+                 <property name="text">
+                  <string>初始化</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="widget_6" native="true">
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="1" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_yaw"/>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_throttle">
+                 <property name="text">
+                  <string>前进:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="doubleSpinBox_throttle"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_yaw">
+                 <property name="text">
+                  <string>转向:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignmentFlag::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" colspan="2">
+                <widget class="QPushButton" name="pushButton_rc">
+                 <property name="text">
+                  <string>遥控</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_task">
+           <attribute name="title">
+            <string>任务设置</string>
+           </attribute>
+           <widget class="QPushButton" name="pushButton_position_ctrl">
+            <property name="geometry">
+             <rect>
+              <x>160</x>
+              <y>20</y>
+              <width>98</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>启动位置控制</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_start_dock">
+            <property name="geometry">
+             <rect>
+              <x>300</x>
+              <y>20</y>
+              <width>98</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>启动入坞程序</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="pushButton_start_cam_dock">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>20</y>
+              <width>113</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>开启坞舱摄像头</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>状态显示</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_longitude">
+              <property name="text">
+               <string>经度:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="3">
+             <widget class="QLabel" name="label_throttle_value">
+              <property name="text">
+               <string>0m/s</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_ENU_X">
+              <property name="text">
+               <string>ENU_X:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="3">
+             <widget class="QLabel" name="label_latitude_value">
+              <property name="text">
+               <string>32.12°</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLabel" name="label_yaw_value">
+              <property name="text">
+               <string>0°</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLabel" name="label_throttle">
+              <property name="text">
+               <string>航速:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLabel" name="label_ENU_Y_value">
+              <property name="text">
+               <string>0m</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_ENU_Y">
+              <property name="text">
+               <string>ENU_Y:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="label_ENU_X_value">
+              <property name="text">
+               <string>0m</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_yaw">
+              <property name="text">
+               <string>艏向:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_latitude">
+              <property name="text">
+               <string>纬度:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="label_longitude_value">
+              <property name="text">
+               <string>119.36°</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_2">
+           <attribute name="title">
+            <string>消息显示</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="QTextEdit" name="textEdit_qdebug"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
