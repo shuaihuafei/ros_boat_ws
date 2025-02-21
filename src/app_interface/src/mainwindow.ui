@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1370</width>
-    <height>876</height>
+    <height>878</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -137,6 +137,29 @@
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
               <widget class="QLabel" name="label_cam_boat_origin">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>435</width>
+                 <height>312</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>435</width>
+                 <height>312</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: 2px solid lightblue;  /* 浅蓝色边框 */
+padding: 0px;
+</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -144,6 +167,29 @@
              </item>
              <item>
               <widget class="QLabel" name="label_cam_boat_yolo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>435</width>
+                 <height>312</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>435</width>
+                 <height>312</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: 2px solid lightblue;  /* 浅蓝色边框 */
+padding: 0px;
+</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -226,6 +272,29 @@
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
               <widget class="QLabel" name="label_cam_dock_origin">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>435</width>
+                 <height>312</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>435</width>
+                 <height>312</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: 2px solid #ADD8E6;  /* 浅蓝色边框 */
+padding: 0px;
+</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -233,6 +302,29 @@
              </item>
              <item>
               <widget class="QLabel" name="label_cam_dock_yolo">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>435</width>
+                 <height>312</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>435</width>
+                 <height>312</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border: 2px solid lightblue;  /* 浅蓝色边框 */
+padding: 0px;
+</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
