@@ -59,7 +59,7 @@
          </widget>
          <widget class="QWidget" name="tab_cam_boat">
           <attribute name="title">
-           <string>无人艇摄像头</string>
+           <string>摄像机相关节点</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
@@ -241,11 +241,6 @@
             </layout>
            </item>
           </layout>
-         </widget>
-         <widget class="QWidget" name="tab_cam_dock">
-          <attribute name="title">
-           <string>坞舱摄像头</string>
-          </attribute>
          </widget>
         </widget>
        </item>
@@ -623,6 +618,12 @@
      <height>27</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menujiangsu">
+    <property name="title">
+     <string>江苏科技大学机械工程学院</string>
+    </property>
+   </widget>
+   <addaction name="menujiangsu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
