@@ -6,13 +6,13 @@ project(app_interface)
 add_compile_options(-std=c++17)
 
 ## 找不到cmake文件时，需要明确一下路径
-set(Qt5_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5")
-set(Qt5Core_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5Core")
-set(Qt5Gui_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5Gui")
-set(Qt5Widgets_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5Widgets")
-set(Qt5WebEngineCore_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebEngineCore")
-set(Qt5WebEngineWidgets_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebEngineWidgets")
-set(Qt5WebChannel_DIR "/home/shuai/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebChannel")
+set(Qt5_DIR "/home/yunxia/Qt/5.15.2/gcc_64/lib/cmake/Qt5")
+set(Qt5Core_DIR "/home/yunxia/Qt/5.15.2/gcc_64/lib/cmake/Qt5Core")
+set(Qt5Gui_DIR "/home/yunxia/Qt/5.15.2/gcc_64/lib/cmake/Qt5Gui")
+set(Qt5Widgets_DIR "/home/yunxia/Qt/5.15.2/gcc_64/lib/cmake/Qt5Widgets")
+set(Qt5WebEngineCore_DIR "/home/yunxia/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebEngineCore")
+set(Qt5WebEngineWidgets_DIR "/home/yunxia/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebEngineWidgets")
+set(Qt5WebChannel_DIR "/home/yunxia/Qt/5.15.2/gcc_64/lib/cmake/Qt5WebChannel")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)

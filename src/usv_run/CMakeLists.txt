@@ -4,7 +4,7 @@ project(usv_run)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++17)
 
-set(mavros_msgs_DIR "/home/shuai/mavros_ws/devel/share/mavros_msgs/cmake")
+set(mavros_msgs_DIR "/home/yunxia/mavros_ws/devel/share/mavros_msgs/cmake")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
