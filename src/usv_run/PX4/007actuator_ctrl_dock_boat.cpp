@@ -166,22 +166,22 @@ public:
             ROS_ERROR("Failed to open CSV file for logging.");
         }
         
-        // 这个CSV文件用来调试PID
-        output_file_pid_test.open("/home/shuai/ros_boat_ws/boat_data_pid_test.csv", std::ios::out);
-        if (output_file_pid_test.is_open()) {
-            output_file_pid_test << "time,latitude,longitude,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
-        } else {
-            ROS_ERROR("Failed to open CSV file for logging.");
-        }
+        // // 这个CSV文件用来调试PID
+        // output_file_pid_test.open("/home/shuai/ros_boat_ws/boat_data_pid_test.csv", std::ios::out);
+        // if (output_file_pid_test.is_open()) {
+        //     output_file_pid_test << "time,latitude,longitude,position_x,position_y,position_z,yaw_angle,v_body_x,dock_angle,boat_angle,current_yaw,desired_yaw,des_cur_error,kp_d,deg_th,pid_yaw_output,pid_throttle_output,control_signal_2,control_signal_3\n";
+        // } else {
+        //     ROS_ERROR("Failed to open CSV file for logging.");
+        // }
     }
 
     ~AttitudeControlNode() {
         if (output_file_pid.is_open()) {
             output_file_pid.close();
         }
-        if (output_file_pid_test.is_open()) {
-            output_file_pid_test.close();
-        }
+        // if (output_file_pid_test.is_open()) {
+        //     output_file_pid_test.close();
+        // }
     }
 
     void updateActuatorControl() {
@@ -358,7 +358,7 @@ public:
     void boatAngleCallback(const std_msgs::Float64::ConstPtr& msg) {
         boat_angle = msg->data;  // 获取目标偏航角
         last_received_time_boat = ros::Time::now();  // 更新接收时间
-        ROS_INFO_THROTTLE(1, "Received target yaw angle: %f deg", dock_angle);
+        ROS_INFO_THROTTLE(1, "Received target yaw angle: %f deg", boat_angle);
     }
 
     // 体坐标系FLU速度获取
@@ -461,13 +461,13 @@ public:
                 output_file_pid << currentTime << ","
                             << latitude << ","
                             << longitude << ","
-                            << position_x << ","
-                            << position_y << ","
+                            << position_x << ","    // 记录的无人艇的x位置
+                            << position_y << ","    // 记录的无人艇的y位置
                             << position_z << ","
-                            << yaw_angle << ","
+                            << yaw_angle << ","     // 记录的无人艇的yaw角
                             << v_body_x << ","
-                            << dock_angle << ","
-                            << boat_angle << ","
+                            << dock_angle << ","    // 坞舱在无人艇视角中的角度值
+                            << boat_angle << ","    // 无人艇在坞舱视角中的角度值
                             << (current_yaw * 180.0 / M_PI) << ","
                             << (desired_yaw * 180.0 / M_PI) << ","
                             << des_cur_error << ","
@@ -477,26 +477,26 @@ public:
                             << pid_throttle_output << ","
                             << control_signal_2 << ","
                             << control_signal_3 << "\n";
-                // 记录到PID调试CSV文件
-                output_file_pid_test << currentTime << ","
-                            << latitude << ","
-                            << longitude << ","
-                            << position_x << ","
-                            << position_y << ","
-                            << position_z << ","
-                            << yaw_angle << ","
-                            << v_body_x << ","
-                            << dock_angle << ","
-                            << boat_angle << ","
-                            << (current_yaw * 180.0 / M_PI) << ","
-                            << (desired_yaw * 180.0 / M_PI) << ","
-                            << des_cur_error << ","
-                            << kp_d << ","
-                            << deg_th << ","
-                            << pid_yaw_output << ","
-                            << pid_throttle_output << ","
-                            << control_signal_2 << ","
-                            << control_signal_3 << "\n";
+                // // 记录到PID调试CSV文件
+                // output_file_pid_test << currentTime << ","
+                //             << latitude << ","
+                //             << longitude << ","
+                //             << position_x << ","
+                //             << position_y << ","
+                //             << position_z << ","
+                //             << yaw_angle << ","
+                //             << v_body_x << ","
+                //             << dock_angle << ","
+                //             << boat_angle << ","
+                //             << (current_yaw * 180.0 / M_PI) << ","
+                //             << (desired_yaw * 180.0 / M_PI) << ","
+                //             << des_cur_error << ","
+                //             << kp_d << ","
+                //             << deg_th << ","
+                //             << pid_yaw_output << ","
+                //             << pid_throttle_output << ","
+                //             << control_signal_2 << ","
+                //             << control_signal_3 << "\n";
             }
             update_counter++;
 
