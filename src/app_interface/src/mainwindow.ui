@@ -45,7 +45,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget_display">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_map">
           <attribute name="title">
@@ -99,7 +99,7 @@
                     <item>
                      <widget class="QPushButton" name="pushButton_cam_boat_origin">
                       <property name="text">
-                       <string>开启相机原图像</string>
+                       <string>开启无人船相机原图像</string>
                       </property>
                       <property name="checkable">
                        <bool>true</bool>
@@ -141,7 +141,7 @@
                     <item>
                      <widget class="QPushButton" name="pushButton_cam_boat_yolo">
                       <property name="text">
-                       <string>开启yolo识别图像</string>
+                       <string>开启无人船yolo识别图像</string>
                       </property>
                       <property name="checkable">
                        <bool>true</bool>
@@ -271,7 +271,7 @@ padding: 0px;
                     <item>
                      <widget class="QPushButton" name="pushButton_cam_dock_origin">
                       <property name="text">
-                       <string>开启相机原图像</string>
+                       <string>开启坞舱相机原图像</string>
                       </property>
                       <property name="checkable">
                        <bool>true</bool>
@@ -313,7 +313,7 @@ padding: 0px;
                     <item>
                      <widget class="QPushButton" name="pushButton_cam_dock_yolo">
                       <property name="text">
-                       <string>开启yolo识别图像</string>
+                       <string>开启坞舱yolo识别图像</string>
                       </property>
                       <property name="checkable">
                        <bool>true</bool>

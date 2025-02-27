@@ -136,7 +136,7 @@ void MainWindow::startBoatCamOrigin()
 {
     connect(ui->pushButton_cam_boat_origin, &QPushButton::toggled, [=](bool toggled_flag) {
         if (toggled_flag) {
-            ui->pushButton_cam_boat_origin->setText("关闭相机原图像");
+            ui->pushButton_cam_boat_origin->setText("关闭无人船相机原图像");
             // 启动 ROS 订阅
             if (!boatCamOriginImageSubscriber) {
                 // 订阅 ROS 图像话题
@@ -144,7 +144,7 @@ void MainWindow::startBoatCamOrigin()
                 ui->textEdit_qdebug->append("<font color='green'>已开始订阅相机原图像话题</font>");
             }
         } else {
-            ui->pushButton_cam_boat_origin->setText("开启相机原图像");
+            ui->pushButton_cam_boat_origin->setText("开启无人船相机原图像");
             // 取消订阅 ROS 图像话题
             if (boatCamOriginImageSubscriber) {
                 boatCamOriginImageSubscriber.shutdown();
@@ -182,7 +182,7 @@ void MainWindow::startBoatCamYolo()
 {
     connect(ui->pushButton_cam_boat_yolo, &QPushButton::toggled, [=](bool toggled_flag) {
         if (toggled_flag) {
-            ui->pushButton_cam_boat_yolo->setText("关闭yolo识别图像");
+            ui->pushButton_cam_boat_yolo->setText("关闭无人船yolo识别图像");
             // 启动 ROS 订阅
             if (!boatCamYoloImageSubscriber) {
                 // 订阅 ROS 图像话题
@@ -190,7 +190,7 @@ void MainWindow::startBoatCamYolo()
                 ui->textEdit_qdebug->append("<font color='green'>已开始订阅相机原图像话题</font>");
             }
         } else {
-            ui->pushButton_cam_boat_yolo->setText("开启yolo识别图像");
+            ui->pushButton_cam_boat_yolo->setText("开启无人船yolo识别图像");
             // 取消订阅 ROS 图像话题
             if (boatCamYoloImageSubscriber) {
                 boatCamYoloImageSubscriber.shutdown();
@@ -300,7 +300,7 @@ void MainWindow::startDockCamOrigin()
 {
     connect(ui->pushButton_cam_dock_origin, &QPushButton::toggled, [=](bool toggled_flag) {
         if (toggled_flag) {
-            ui->pushButton_cam_dock_origin->setText("关闭相机原图像");
+            ui->pushButton_cam_dock_origin->setText("关闭坞舱相机原图像");
             // 启动 ROS 订阅
             if (!dockCamOriginImageSubscriber) {
                 // 订阅 ROS 图像话题
@@ -308,7 +308,7 @@ void MainWindow::startDockCamOrigin()
                 ui->textEdit_qdebug->append("<font color='green'>已开始订阅相机原图像话题</font>");
             }
         } else {
-            ui->pushButton_cam_dock_origin->setText("开启相机原图像");
+            ui->pushButton_cam_dock_origin->setText("开启坞舱相机原图像");
             // 取消订阅 ROS 图像话题
             if (dockCamOriginImageSubscriber) {
                 dockCamOriginImageSubscriber.shutdown();
@@ -322,7 +322,7 @@ void MainWindow::startDockCamYolo()
 {
     connect(ui->pushButton_cam_dock_yolo, &QPushButton::toggled, [=](bool toggled_flag) {
         if (toggled_flag) {
-            ui->pushButton_cam_dock_yolo->setText("关闭yolo识别图像");
+            ui->pushButton_cam_dock_yolo->setText("关闭坞舱yolo识别图像");
             // 启动 ROS 节点 (roslaunch)
             startDockCamYoloProcess = new QProcess(this);  // 创建 QProcess 对象
             // 使用 bash 启动进程
@@ -364,7 +364,7 @@ void MainWindow::startDockCamYolo()
                 }
             }
         } else {
-            ui->pushButton_cam_dock_yolo->setText("开启yolo识别图像");
+            ui->pushButton_cam_dock_yolo->setText("开启坞舱yolo识别图像");
             // 取消订阅 ROS 图像话题
             if (dockCamYoloImageSubscriber) {
                 dockCamYoloImageSubscriber.shutdown();
